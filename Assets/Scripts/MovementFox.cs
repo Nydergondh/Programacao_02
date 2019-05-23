@@ -17,32 +17,48 @@ public class MovementFox : MonoBehaviour
     void Update()
     {
         float horzMove = Input.GetAxis("Horizontal");
-        print(horzMove);
-
+        //is is standing still
         if (horzMove == 0) { 
             animator.SetBool("IsMoving", false);
-            print("Not Moving");
         }
         else {
-            //TODO set walking speed to be slower then the running speed. (At the moment only changing the animation)
-            animator.SetBool("IsMoving", true);            
-            //start run animation
+            //if is moving and running
             if (Input.GetButton("Run")) {
-                animator.SetBool("IsRunning", true);
-                print("Moving and Running");
+                //check for jumps, otherwise run
+                if (Input.GetButtonDown("Jump") && animator.GetBool("IsJumping") == false) {
+                    animator.SetBool("IsJumping", true);
+                    StartCoroutine(JumpWait());
+                }
+                //check for jumps, otherwise run
+                else if (animator.GetBool("IsJumping") == false) {
+                    animator.SetBool("IsRunning", true);
+                }
+                speed = 10f;
             }
+            //is no running, so walk
             else {
-                animator.SetBool("IsRunning", false);
-                print("Moving and not Running");
+                //check for jumps, otherwise walk
+                if (Input.GetButtonDown("Jump") && animator.GetBool("IsJumping") == false) {
+                    animator.SetBool("IsJumping", true);
+                    StartCoroutine(JumpWait());
+                }
+                //walk
+                else if(animator.GetBool("IsJumping") == false) {
+                    animator.SetBool("IsRunning", false);
+                    animator.SetBool("IsMoving", true);
+                }
+                speed = 5f;
             }
+            //after the correct animation is playing with the correct velocity, move the object
             Vector3 horizontal = new Vector3(horzMove * speed, 0, 0) * Time.deltaTime;
             transform.Translate(horizontal);
-            CheckDiraction(horzMove);
+            //Check if the caracter is changing direction (flips de X renderer).
+            CheckDirection(horzMove);
         }
 
     }
 
-    public void CheckDiraction(float movement) {
+    public void CheckDirection(float movement) {
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
         //if was left but now is going rigth
         if (movement <= 1 && movement > 0) {
@@ -52,6 +68,11 @@ public class MovementFox : MonoBehaviour
         else if (movement >= -1 && movement < 0) {
             renderer.flipX = false;
         }
+    }
+
+    IEnumerator JumpWait() {
+        yield return new WaitForSeconds(0.7f);
+        animator.SetBool("IsJumping", false);
     }
 
 }
