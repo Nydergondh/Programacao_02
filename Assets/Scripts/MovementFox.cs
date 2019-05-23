@@ -35,7 +35,7 @@ public class MovementFox : MonoBehaviour
                 animator.SetBool("IsRunning", false);
                 print("Moving and not Running");
             }
-            Vector3 horizontal = new Vector3(horzMove * speed, transform.position.y, transform.position.z) * Time.deltaTime;
+            Vector3 horizontal = new Vector3(horzMove * speed, 0, 0) * Time.deltaTime;
             transform.Translate(horizontal);
             CheckDiraction(horzMove);
         }
