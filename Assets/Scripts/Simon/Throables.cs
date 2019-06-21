@@ -6,14 +6,10 @@ public class Throables : MonoBehaviour {
 
     public GameObject[] throwables;
     public int currentId;
-    private Animator animTrhowable;
     private int id;
-    private SpriteRenderer renderer;
 
     // Start is called before the first frame update
     void Start() {
-        renderer = GetComponent<SpriteRenderer>();
-        renderer.enabled = false;
         for (int i = 0; i < throwables.Length; i++) {
             id = i;
         }
@@ -22,23 +18,26 @@ public class Throables : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && Input.GetKeyDown(KeyCode.Z)){
-            renderer.enabled = true;
             ThrowItem();
         }
     }
     void ThrowItem() {
         switch (currentId){
             //add all control of animations
+            case -1:
+                break;
+            case 0:
+                GameObject knife = Instantiate(throwables[0], transform.position, Quaternion.identity);
+                break;
             case 1:
-                animTrhowable = throwables[currentId].GetComponent<Animator>();
+                GameObject holyWater = Instantiate(throwables[1], transform.position, Quaternion.identity);
                 break;
             case 2:
-                animTrhowable = throwables[currentId].GetComponent<Animator>();
+                GameObject cross = Instantiate(throwables[2], transform.position, Quaternion.identity);
                 break;
             case 3:
-                animTrhowable = throwables[currentId].GetComponent<Animator>();
+                GameObject axe = Instantiate(throwables[3], transform.position, Quaternion.identity);
                 break;
-
         }
     }
 

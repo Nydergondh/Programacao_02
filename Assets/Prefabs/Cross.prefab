@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4796582822124912635}
   - component: {fileID: 4796582822124912634}
   - component: {fileID: 4796582822124912637}
+  - component: {fileID: 6589912950630595507}
   m_Layer: 0
   m_Name: Cross
   m_TagString: Untagged
@@ -99,3 +100,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6589912950630595507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4796582822124912636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473ae9e5d2e92e24da20370576305fab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crossSpeed: 5
+  damage: 1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SimonActions : MonoBehaviour
 {
-    //public static SimonActions simon;
+    public static SimonActions simon;
 
     public float walkSpeed = 5f;
     public float jumpSpeed = 5f;
@@ -17,9 +17,9 @@ public class SimonActions : MonoBehaviour
     public Animator simonAnim;
     public Animator whipAnim;
 
-    Rigidbody2D rigidbody;
+    private new Rigidbody2D  rigidbody;
     public Collider2D feetCollider;
-    /*
+    
     void Awake() {
         if (simon == null) {
             simon = this;
@@ -29,7 +29,7 @@ public class SimonActions : MonoBehaviour
             simon = this;
         }
     }
-    */
+    
     void Start() {
         rigidbody = GetComponent<Rigidbody2D>();
         whipRenderer.enabled = false;
@@ -47,7 +47,7 @@ public class SimonActions : MonoBehaviour
         float delta = Input.GetAxis("Horizontal") * walkSpeed;
         vel = new Vector2(delta, rigidbody.velocity.y);
         simonAnim.SetFloat("Speed" ,delta);
-        if (!simonAnim.GetBool("IsAttacking")) {
+        if (!simonAnim.GetBool("IsAttacking") || (simonAnim.GetBool("IsJumping") && simonAnim.GetBool("IsAttacking"))) {
             if (delta > 0 || delta < 0) {
                 //is walking
                 simonAnim.SetBool("IsWalking", true);
@@ -97,7 +97,14 @@ public class SimonActions : MonoBehaviour
 
         // Actions : Item, Whip
         if (!simonAnim.GetBool("IsAttacking")) {
-            if (Input.GetKeyDown(KeyCode.Z)) {
+
+            if (Input.GetKeyDown(KeyCode.Z) && !simon.simonAnim.GetBool("IsJumping") && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))) {
+                simonAnim.SetBool("IsWalking", false);
+                simonAnim.SetBool("IsAttacking", true);
+                StartCoroutine(AttackWait());
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Z)) {
                 //play whipAnim
                 if (simonAnim.GetBool("Crouch")) {
                     CrouchWhip();
@@ -126,11 +133,9 @@ public class SimonActions : MonoBehaviour
 
     bool CheckGround() {
         if (!feetCollider.IsTouchingLayers(isPlataform)) {
-            print("Not Touching Ground");
             return false;
         }
         else {
-            print("Touching Ground");
             return true;
         }
     }
@@ -180,7 +185,7 @@ public class SimonActions : MonoBehaviour
     //checks if simon is colliding with groundlayers (set in the layer stuff)
 
     IEnumerator AttackWait() {
-        yield return new WaitForSeconds(0.52f);
+        yield return new WaitForSeconds(0.518f);
         //set all the attack variables to false
         simonAnim.SetBool("IsAttacking", false);
         whipAnim.SetBool("Whip", false);
