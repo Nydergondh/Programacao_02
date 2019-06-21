@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyZombie : MonoBehaviour {
-    /*
+    
     private new Collider2D collider;
     private int health = 3;
     private int attackDamage;
@@ -30,5 +30,5 @@ public class EnemyZombie : MonoBehaviour {
             Destroy(transform.gameObject);
         }
     } 
-    */
+    
 }
