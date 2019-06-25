@@ -5,7 +5,7 @@ using UnityEngine;
 public class Cross : MonoBehaviour
 {
     public float crossSpeed = 5f;
-    public int damage = 1;
+    public int damage = 3;
     private bool comeBack; // :( I miss u Sophia, come back Please.
     private bool comeRigth;
     public LayerMask enemyLayer;
@@ -53,7 +53,15 @@ public class Cross : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D enemy) {
         if (collider.IsTouchingLayers(enemyLayer)) {
-            enemy.gameObject.SendMessage("OnDamage", damage);
+            var damageable = enemy.GetComponent<IDamageable>();
+            if (damageable != null) {
+                damageable.OnDamage(damage, gameObject);
+            }
         }
+
+        if (collider.IsTouchingLayers(groundLayer)) {
+            Destroy(gameObject);
+        }
+
     }
 }

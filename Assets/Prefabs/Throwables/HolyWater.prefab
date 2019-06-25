@@ -161,8 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b866415879d9248b4022b124f5ad84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HolyWaterAnim: {fileID: 3202558953978762804}
-  damage: 1
+  damage: 3
   yVelocity: 2.5
   xVelocity: 2
   enemyLayer:

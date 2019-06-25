@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Knife : MonoBehaviour {
     public float knifeSpeed = 5f;
-    public int damage = 1;
+    public int damage = 3;
 
     public LayerMask enemyLayer;
     public LayerMask groundLayer;
@@ -25,7 +25,6 @@ public class Knife : MonoBehaviour {
 
     void Update()
     {
-        print(cameraMovement.rigthLimit.position.x + " " + cameraMovement.leftLimit.position.x);
         if(transform.position.x > cameraMovement.rigthLimit.position.x || transform.position.x < cameraMovement.leftLimit.position.x) {
             Destroy(gameObject);
         }
@@ -35,7 +34,16 @@ public class Knife : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D enemy) {
         if (collider.IsTouchingLayers(enemyLayer)) {
-            enemy.gameObject.SendMessage("OnDamage", damage);
+            var damageable = enemy.GetComponent<IDamageable>();
+            if (damageable != null) {
+                damageable.OnDamage(damage, gameObject);
+            }
         }
+
+        if (collider.IsTouchingLayers(groundLayer)) {
+            Destroy(gameObject);
+        }
+
     }
+
 }

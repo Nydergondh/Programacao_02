@@ -8,7 +8,7 @@ public class Axe : MonoBehaviour
     private new BoxCollider2D collider;
     private Animator axeAnim;
 
-    public int damage = 1;
+    public int damage = 3;
     public float yVelocity = 4f;
     public float xVelocity = 3f;
 
@@ -28,18 +28,16 @@ public class Axe : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter2D(Collider2D enemy) {
         if (collider.IsTouchingLayers(enemyLayer)) {
-            enemy.gameObject.SendMessage("OnDamage", damage);
+            var damageable = enemy.GetComponent<IDamageable>();
+            if(damageable != null)
+            {
+                damageable.OnDamage(damage, gameObject);
+            }
         }
 
         if (collider.IsTouchingLayers(groundLayer)) {
-            //enemy.gameObject.SendMessage("OnDamage", damage);
             Destroy(gameObject);
         }
 

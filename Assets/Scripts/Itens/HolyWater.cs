@@ -8,7 +8,7 @@ public class HolyWater : MonoBehaviour
     private new BoxCollider2D collider;
     private Animator holyWaterAnim;
 
-    public int damage = 1;
+    public int damage = 3;
     public float yVelocity = 2.5f;
     public float xVelocity = 2f;
 
@@ -31,14 +31,27 @@ public class HolyWater : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter2D(Collider2D enemy) {
         if (collider.IsTouchingLayers(enemyLayer) || collider.IsTouchingLayers(groundLayer)) {
-            //enemy.gameObject.SendMessage("OnDamage", damage);
-            holyWaterAnim.SetBool("HasHit",true);
+            holyWaterAnim.SetBool("HasHit", true);
             rigidbody.velocity = Vector2.zero;
             rigidbody.isKinematic = true;
+
+            if (collider.IsTouchingLayers(enemyLayer)) {
+                var damageable = enemy.GetComponent<IDamageable>();
+                if (damageable != null) {
+                    damageable.OnDamage(damage, gameObject);
+                    StartCoroutine(DestroyWater());
+                }
+            }
+
+            if (collider.IsTouchingLayers(groundLayer)) {
+                StartCoroutine(DestroyWater());
+            }
         }
+
     }
     
-    public void DestroyWater() {
+    public IEnumerator DestroyWater() {
+        yield return new WaitForSeconds(1.1f);
         Destroy(gameObject);
     }
 }
