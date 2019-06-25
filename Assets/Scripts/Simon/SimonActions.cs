@@ -218,10 +218,10 @@ public class SimonActions : MonoBehaviour, IDamageable {
         if (!invulnerable) {
             health -= damage;
             print("Damage Taken " + damage + " Current Health: " + health);
-            if (enemyObj.transform.localScale.x == 1) {
+            if (enemyObj.transform.localScale.x == 1 && !simonAnim.GetBool("IsAttacking")) {
                 rigidbody.velocity = new Vector2(-1, 2);
             }
-            else {
+            else if(enemyObj.transform.localScale.x == -1 && !simonAnim.GetBool("IsAttacking")) {
                 rigidbody.velocity = new Vector2(1, 2);
             }          
             StartCoroutine(ApplyDamage());
