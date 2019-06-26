@@ -20,6 +20,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
     public Animator simonAnim;
     public Animator whipAnim;
 
+    private GameObject enemyObj;
     private new Rigidbody2D  rigidbody;
     public BoxCollider2D feetCollider;
     private BoxCollider2D simonCollider;
@@ -69,7 +70,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
                     //is crouching
                     simonAnim.SetBool("Crouch", true);
                     simonAnim.SetBool("IsWalking", false);
-                    vel = Vector2.zero;
+                    vel = new Vector2(0,rigidbody.velocity.y);
                 }
                 else {
                     //is not crouching
@@ -199,11 +200,17 @@ public class SimonActions : MonoBehaviour, IDamageable {
     }
 
     IEnumerator AttackWait() {
+
         yield return new WaitForSeconds(0.518f);
-        //set all the attack variables to false
+        //set all the attack variables to 
         simonAnim.SetBool("IsAttacking", false);
         whipAnim.SetBool("Whip", false);
         whipAnim.SetBool("CrouchWhip", false);
+        //checks if GotHit to throw simon in one direction
+        if (invulnerable)
+        {
+            ThrowSimon(enemyObj);
+        }
     }
 
     IEnumerator ApplyDamage() {
@@ -214,20 +221,30 @@ public class SimonActions : MonoBehaviour, IDamageable {
         invulnerable = false;
     }
 
-    public void OnDamage(int damage, GameObject enemyObj) {
-        if (!invulnerable) {
+    public void OnDamage(int damage, GameObject enemyObject) {
+        if (!invulnerable)
+        {
+            enemyObj = enemyObject;
             health -= damage;
             print("Damage Taken " + damage + " Current Health: " + health);
-            if (enemyObj.transform.localScale.x == 1 && !simonAnim.GetBool("IsAttacking")) {
-                rigidbody.velocity = new Vector2(-1, 2);
-            }
-            else if(enemyObj.transform.localScale.x == -1 && !simonAnim.GetBool("IsAttacking")) {
-                rigidbody.velocity = new Vector2(1, 2);
-            }          
+            ThrowSimon(enemyObj);
             StartCoroutine(ApplyDamage());
-            if (health <= 0) {
+            if (health <= 0)
+            {
                 Destroy(gameObject);
             }
+        }
+    }
+
+    private void ThrowSimon(GameObject enemyObj)
+    {
+        if (enemyObj.transform.localScale.x == 1 && !simonAnim.GetBool("IsAttacking"))
+        {
+            rigidbody.velocity = new Vector2(-1, 2);
+        }
+        else if (enemyObj.transform.localScale.x == -1 && !simonAnim.GetBool("IsAttacking"))
+        {
+            rigidbody.velocity = new Vector2(1, 2);
         }
     }
 }
