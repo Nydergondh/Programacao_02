@@ -110,7 +110,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
 
         // Actions : Item, Whip
         if (!simonAnim.GetBool("IsAttacking") && !invulnerable && simonAnim.GetBool("Alive")) {
-
+            //throw stuff
             if (Input.GetKeyDown(KeyCode.Z) && !simon.simonAnim.GetBool("IsJumping") && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))) {
                 simonAnim.SetBool("IsWalking", false);
                 simonAnim.SetBool("IsAttacking", true);
