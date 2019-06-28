@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBat : MonoBehaviour, IDamageable
+public class EnemyBat : MonoBehaviour, IDamageable, IDestroyOffScreen
 {
     private new Collider2D collider;
     private int health = 1;
@@ -24,9 +24,9 @@ public class EnemyBat : MonoBehaviour, IDamageable
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(Vector3.Distance(transform.position, SimonActions.simon.transform.position));
         if (Vector3.Distance(transform.position, SimonActions.simon.transform.position) <= 3f || batAnim.GetBool("Active")) {
             MoveBat();
+            OutOffScreen();
         }
     }
 
@@ -64,5 +64,12 @@ public class EnemyBat : MonoBehaviour, IDamageable
             }
         }
 
+    }
+
+    public void OutOffScreen() {
+        SpriteRenderer renderer = GetComponentInChildren<SpriteRenderer>();
+        if (!renderer.isVisible) {
+            Destroy(gameObject);
+        }
     }
 }

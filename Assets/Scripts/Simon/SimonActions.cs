@@ -23,6 +23,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
     private GameObject enemyObj;
     private new Rigidbody2D  rigidbody;
     public BoxCollider2D feetCollider;
+    public BoxCollider2D Collider;
     private BoxCollider2D simonCollider;
 
     void Awake() {
@@ -53,7 +54,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
         float delta = Input.GetAxis("Horizontal") * walkSpeed;
         vel = new Vector2(delta, rigidbody.velocity.y);
         simonAnim.SetFloat("Speed" ,delta);
-        if (!invulnerable) {
+        if (!invulnerable && simonAnim.GetBool("Alive")) {
             if (!simonAnim.GetBool("IsAttacking") || (simonAnim.GetBool("IsJumping") && simonAnim.GetBool("IsAttacking"))) {
                 if (delta > 0 || delta < 0) {
                     //is walking
@@ -96,6 +97,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
                 else {
                     rigidbody.velocity = vel;
                 }
+                AttColliderSize();
             }
             //check for other types of atacks
             //create an input with keys (down | s)
@@ -107,7 +109,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
     void Attack() {
 
         // Actions : Item, Whip
-        if (!simonAnim.GetBool("IsAttacking") && !invulnerable) {
+        if (!simonAnim.GetBool("IsAttacking") && !invulnerable && simonAnim.GetBool("Alive")) {
 
             if (Input.GetKeyDown(KeyCode.Z) && !simon.simonAnim.GetBool("IsJumping") && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))) {
                 simonAnim.SetBool("IsWalking", false);
@@ -123,6 +125,8 @@ public class SimonActions : MonoBehaviour, IDamageable {
                 else {
                     Whip();
                 }
+
+                AttColliderSize();
 
                 if (simonAnim.GetBool("IsJumping")) {
                     simonAnim.SetBool("IsWalking", false);
@@ -216,22 +220,30 @@ public class SimonActions : MonoBehaviour, IDamageable {
     IEnumerator ApplyDamage() {
         invulnerable = true;
         simonAnim.SetBool("GetHit", true);
+        simonRenderer.color = new Color(1, 1, 1, 0.5f);
         yield return new WaitForSeconds(0.518f);
+        simonRenderer.color = new Color(1, 1, 1, 1);
         simonAnim.SetBool("GetHit", false);
         invulnerable = false;
     }
 
+    public IEnumerator Die() {
+        invulnerable = true;
+        simonAnim.SetBool("Alive", false);
+        yield return new WaitForSeconds(1.52f);
+        invulnerable = false;      
+    }
+
     public void OnDamage(int damage, GameObject enemyObject) {
-        if (!invulnerable)
+        if (!invulnerable && simonAnim.GetBool("Alive"))
         {
             enemyObj = enemyObject;
             health -= damage;
             print("Damage Taken " + damage + " Current Health: " + health);
             ThrowSimon(enemyObj);
             StartCoroutine(ApplyDamage());
-            if (health <= 0)
-            {
-                Destroy(gameObject);
+            if (health <= 0) {
+                simonAnim.SetBool("Alive", false);
             }
         }
     }
@@ -246,5 +258,10 @@ public class SimonActions : MonoBehaviour, IDamageable {
         {
             rigidbody.velocity = new Vector2(1, 2);
         }
+    }
+    //gambiarra para atualizar o tamanho do collider
+    private void AttColliderSize() {
+        simonCollider.size = Collider.size;
+        simonCollider.offset = Collider.offset;
     }
 }

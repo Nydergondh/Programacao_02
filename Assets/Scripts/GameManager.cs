@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
-
     public List<Transform> scenarioTransforms;
     // Start is called before the first frame update
     void Awake() {
@@ -19,15 +19,14 @@ public class GameManager : MonoBehaviour
         scenarioTransforms = new List<Transform>();
     }
 
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        
+        if (!SimonActions.simon.simonAnim.GetBool("Alive")) {
+            print("Got Here");
+            StartCoroutine(SimonActions.simon.Die());
+            StartCoroutine(WaitEndGame());
+        }
     }
     
     public void CurrentScenario(Scenario currentScenario) {
@@ -35,5 +34,9 @@ public class GameManager : MonoBehaviour
             scenarioTransforms.Add(checkpoint);
         } 
     }
-    
+
+    private IEnumerator WaitEndGame() {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("Simon_test");
+    }
 }

@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyZombie : MonoBehaviour, IDamageable {
+public class EnemyZombie : MonoBehaviour, IDamageable, IDestroyOffScreen {
     
     private new Collider2D collider;
+    private Animator zombieAnim;
+
     private int health = 3;
     private int damage = 1;
     private int attackDamage;
-    private Animator zombieAnim;
+    private bool canDestroy = false; //bad name (consider changing)
 
     public LayerMask simonLayer;
     public float zombieSpeed = 3f;
@@ -30,7 +32,17 @@ public class EnemyZombie : MonoBehaviour, IDamageable {
             xMovement *= -1;
         }
         if (zombieAnim.GetBool("Alive")) {
+            CheckDestruction();
             transform.position = new Vector3(transform.position.x + xMovement, transform.position.y, 0);
+        }
+    }
+
+    private void CheckDestruction() {
+        if (Vector3.Distance(transform.position, SimonActions.simon.transform.position) <= 2) {
+            canDestroy = true;
+        }
+        if (canDestroy) {
+            OutOffScreen();
         }
     }
 
@@ -57,5 +69,16 @@ public class EnemyZombie : MonoBehaviour, IDamageable {
         }
 
     }
+
+    public void OutOffScreen() {
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+
+        if (!renderer.isVisible) {
+            Destroy(gameObject);
+        }
+        
+    }
+
+
 
 }
