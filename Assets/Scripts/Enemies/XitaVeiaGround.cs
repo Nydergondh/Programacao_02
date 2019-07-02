@@ -17,6 +17,7 @@ public class XitaVeiaGround : MonoBehaviour
         if (collider.gameObject.layer == 8) {
             xitaVeia.jump = true;
             xitaVeia.isOnPlatform = false;
+            xitaVeia.run = false;
             if (transform.parent.localScale.x == -1) {
                 xitaVeia.rigidbody.velocity = new Vector2(3f, 3f);
             }

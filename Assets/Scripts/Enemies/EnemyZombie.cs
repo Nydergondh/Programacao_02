@@ -25,7 +25,7 @@ public class EnemyZombie : MonoBehaviour, IDamageable, IDestroyOffScreen {
     // Update is called once per frame
     void Update()
     {
-        
+
         float xMovement = zombieSpeed * Time.deltaTime;
         // kinda a mind fuck, I spawn the zombie with a scale in X and he has to move accordingly to that(check ZombieSpawner)
         if (transform.localScale.x == 1) {
@@ -35,6 +35,7 @@ public class EnemyZombie : MonoBehaviour, IDamageable, IDestroyOffScreen {
             CheckDestruction();
             transform.position = new Vector3(transform.position.x + xMovement, transform.position.y, 0);
         }
+
     }
 
     private void CheckDestruction() {

@@ -33,7 +33,6 @@ public class EnemyBat : MonoBehaviour, IDamageable, IDestroyOffScreen
     private void MoveBat() {
         batAnim.SetBool("Active", true);
         float xMovement = batSpeed * Time.deltaTime;
-        // kinda a mind fuck, I spawn the zombie with a scale in X and he has to move accordingly to that(check ZombieSpawner)
         if (transform.localScale.x == 1) {
             xMovement *= -1;
         }
@@ -70,6 +69,6 @@ public class EnemyBat : MonoBehaviour, IDamageable, IDestroyOffScreen
         SpriteRenderer renderer = GetComponentInChildren<SpriteRenderer>();
         if (!renderer.isVisible) {
             Destroy(gameObject);
-        }
+        }        
     }
 }

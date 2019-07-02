@@ -38,6 +38,7 @@ public class Axe : MonoBehaviour
         }
 
         if (collider.IsTouchingLayers(groundLayer)) {
+            GameManager.gameManager.DestroyI();
             Destroy(gameObject);
         }
 

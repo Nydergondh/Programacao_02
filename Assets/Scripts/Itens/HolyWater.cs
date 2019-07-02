@@ -51,6 +51,7 @@ public class HolyWater : MonoBehaviour
     }
     
     public IEnumerator DestroyWater() {
+        GameManager.gameManager.DestroyI();
         yield return new WaitForSeconds(1.1f);
         Destroy(gameObject);
     }

@@ -7,6 +7,7 @@ public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
     private float xitaSpeed = 4f;
     private int health = 1;
 
+    public float xitaRange = 2f;
     public int xitaHealth { get; set; } = 2;
     public int damage = 1;
    
@@ -34,18 +35,25 @@ public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
 
     // Update is called once per frame
     void Update() {
-        //think
-        if (run) {
-            rigidbody.velocity = new Vector2(xitaSpeed,rigidbody.velocity.y);
-            OutOffScreen();
-        }
+        if (!xitaAnim.GetBool("Dead")) {
 
-        else if ((Vector3.Distance(transform.position, SimonActions.simon.transform.position) <= 3f) && isOnPlatform) {
-            xitaAnim.SetBool("Run",true);
-            if (transform.localScale.x == 1) {
-                xitaSpeed *= -1;
+
+            if (run) {
+                rigidbody.velocity = new Vector2(xitaSpeed, rigidbody.velocity.y);
+                OutOffScreen();
             }
-            rigidbody.velocity = new Vector2(xitaSpeed, rigidbody.velocity.y);
+
+            else if ((Vector3.Distance(transform.position, SimonActions.simon.transform.position) < xitaRange) && isOnPlatform) {
+                if (transform.localScale.x == 1 && !xitaAnim.GetBool("Run")) {
+                    xitaSpeed *= -1;
+                    xitaAnim.SetBool("Run", true);
+                }
+                print(xitaSpeed);
+                rigidbody.velocity = new Vector2(xitaSpeed, rigidbody.velocity.y);
+            }
+        }
+        else {
+            rigidbody.velocity = Vector2.zero;
         }
     }
 
@@ -55,6 +63,7 @@ public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
             if (SimonActions.simon.transform.position.x > transform.position.x) {
                 if (transform.localScale.x == 1) {
                     transform.localScale = new Vector3(-1, 1, 1);
+                    xitaSpeed *= -1;
                 }
             }
             else if (SimonActions.simon.transform.position.x < transform.position.x) {
@@ -73,7 +82,7 @@ public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
         if (health <= 0) {
             xitaAnim.SetBool("Run", false);
             xitaAnim.SetBool("Jump", false);
-            xitaAnim.SetBool("XitaDeath", true);
+            xitaAnim.SetBool("Dead", true);
             StartCoroutine(DestroyXita());
         }
     }

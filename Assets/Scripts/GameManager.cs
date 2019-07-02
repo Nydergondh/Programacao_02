@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
     public List<Transform> scenarioTransforms;
+    public delegate void DestoryItem();
+    public DestoryItem DestroyI;
     // Start is called before the first frame update
     void Awake() {
         if (gameManager == null) {
@@ -39,4 +41,5 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("Simon_test");
     }
+
 }

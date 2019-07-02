@@ -41,6 +41,7 @@ public class Knife : MonoBehaviour {
         }
 
         if (collider.IsTouchingLayers(groundLayer)) {
+            GameManager.gameManager.DestroyI();
             Destroy(gameObject);
         }
 

@@ -60,6 +60,7 @@ public class Cross : MonoBehaviour
         }
 
         if (collider.IsTouchingLayers(groundLayer)) {
+            GameManager.gameManager.DestroyI();
             Destroy(gameObject);
         }
 
