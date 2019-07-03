@@ -7,8 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
     public List<Transform> scenarioTransforms;
-    public delegate void DestoryItem();
-    public DestoryItem DestroyI;
+    public bool canThrowIten = true;
+
+    public delegate int ConsumableConsumed();
+    public ConsumableConsumed Consumed;
     // Start is called before the first frame update
     void Awake() {
         if (gameManager == null) {
@@ -25,7 +27,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (!SimonActions.simon.simonAnim.GetBool("Alive")) {
-            print("Got Here");
             StartCoroutine(SimonActions.simon.Die());
             StartCoroutine(WaitEndGame());
         }

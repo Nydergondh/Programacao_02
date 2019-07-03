@@ -17,6 +17,7 @@ public class HolyWater : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.gameManager.canThrowIten = false;
         holyWaterAnim = GetComponent<Animator>();
         collider = GetComponent<BoxCollider2D>();
         rigidbody = GetComponent<Rigidbody2D>();
@@ -51,7 +52,7 @@ public class HolyWater : MonoBehaviour
     }
     
     public IEnumerator DestroyWater() {
-        GameManager.gameManager.DestroyI();
+        GameManager.gameManager.canThrowIten = true;
         yield return new WaitForSeconds(1.1f);
         Destroy(gameObject);
     }

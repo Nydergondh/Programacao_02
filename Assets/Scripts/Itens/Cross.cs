@@ -19,7 +19,8 @@ public class Cross : MonoBehaviour
     private new Collider2D collider;
 
     void Start() {
-        
+
+        GameManager.gameManager.canThrowIten = false;
         cameraMovement = Camera.main.GetComponent<CameraMovement>();
         cameraRigth = cameraMovement.rigthLimit;
         cameraLeft = cameraMovement.leftLimit;
@@ -60,7 +61,7 @@ public class Cross : MonoBehaviour
         }
 
         if (collider.IsTouchingLayers(groundLayer)) {
-            GameManager.gameManager.DestroyI();
+            GameManager.gameManager.canThrowIten = true;
             Destroy(gameObject);
         }
 

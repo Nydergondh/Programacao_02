@@ -48,7 +48,6 @@ public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
                     xitaSpeed *= -1;
                     xitaAnim.SetBool("Run", true);
                 }
-                print(xitaSpeed);
                 rigidbody.velocity = new Vector2(xitaSpeed, rigidbody.velocity.y);
             }
         }

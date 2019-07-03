@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7362760858653226612}
   - component: {fileID: 6377913006981937869}
   - component: {fileID: 2097082789557477166}
+  - component: {fileID: 9218823541781517173}
   m_Layer: 12
   m_Name: Hearth
   m_TagString: Untagged
@@ -116,7 +117,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.011158228, y: -0.021892458}
+  m_Offset: {x: 0.0014331341, y: -0.00049711764}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -127,7 +128,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.30525303, y: 0.2837847}
+  m_Size: {x: 0.16910148, y: 0.16319278}
   m_EdgeRadius: 0
 --- !u!61 &2097082789557477166
 BoxCollider2D:
@@ -142,7 +143,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.011158228, y: -0.021892458}
+  m_Offset: {x: 0.0014331341, y: -0.00049711764}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -153,5 +154,20 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.30525303, y: 0.2837847}
+  m_Size: {x: 0.16910148, y: 0.16319278}
   m_EdgeRadius: 0
+--- !u!114 &9218823541781517173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3979752908994953339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7095b240108be429ce9970fd300ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  simonLayer:
+    serializedVersion: 2
+    m_Bits: 9216

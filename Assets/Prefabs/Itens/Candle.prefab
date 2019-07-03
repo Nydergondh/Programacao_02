@@ -94,7 +94,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.020749688, y: 0.008299589}
+  m_Offset: {x: -0.0066432953, y: 0.008299589}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -105,7 +105,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.18350697, y: 0.2914058}
+  m_Size: {x: 0.15529418, y: 0.2914058}
   m_EdgeRadius: 0
 --- !u!114 &6448416034676890267
 MonoBehaviour:
@@ -120,17 +120,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itens:
+  - {fileID: 3539376379235315576, guid: 7893dd38fdc41874b885e8af3f17590f, type: 3}
+  - {fileID: 3071048808718894033, guid: c5fb1308519e91548b0f3ead1087a83e, type: 3}
+  - {fileID: 6719385678463308843, guid: 82545286455becc48b215198a5166ae7, type: 3}
   - {fileID: 228595261431775367, guid: bed80435ca1f5f445bcdf5820d50b6e5, type: 3}
-  - {fileID: 7380301238520377861, guid: 7893dd38fdc41874b885e8af3f17590f, type: 3}
-  - {fileID: 217176488899964214, guid: 82545286455becc48b215198a5166ae7, type: 3}
-  - {fileID: 7763666272722963906, guid: c5fb1308519e91548b0f3ead1087a83e, type: 3}
-  - {fileID: 7166241488178936046, guid: 9d950bff69fce72488a797acfbd8f82c, type: 3}
-  - {fileID: 330959553257437957, guid: d2ba59f775f08b4498468e6f27544977, type: 3}
-  - {fileID: 7986048896562506023, guid: 373c4f383f5f68547b3aeb7ba5639848, type: 3}
-  - {fileID: 6145082200719560732, guid: b0017fb6f73aad74bb9db1d8ed090117, type: 3}
-  - {fileID: 5823162959017794600, guid: 0d1c7face9dbadb4dbabe4bbb55ac548, type: 3}
-  - {fileID: 71359683602035179, guid: be10e09ccb359f24d9527ecb71aa9d1d, type: 3}
-  - {fileID: 891966412390772211, guid: cee9f301b81c6ab4eb81c6bf42b736d1, type: 3}
-  - {fileID: 7776837361955027783, guid: 13e5b0765c7f64247b15156789a573bd, type: 3}
-  - {fileID: 3979518351523953027, guid: 2516f30844519de44a4968ee9fd20a55, type: 3}
-  - {fileID: 7157260289741040723, guid: 9989bc19f16289c4292ce2cdb3392a2a, type: 3}
+  - {fileID: 4723914511494051373, guid: d2ba59f775f08b4498468e6f27544977, type: 3}
+  - {fileID: 3979752908994953339, guid: 373c4f383f5f68547b3aeb7ba5639848, type: 3}
+  - {fileID: 5953348647417114717, guid: b0017fb6f73aad74bb9db1d8ed090117, type: 3}
+  - {fileID: 7669393115572524939, guid: eb87a118028205a4a93d41f4d340df88, type: 3}
+  - {fileID: 3115060866764348788, guid: 0d1c7face9dbadb4dbabe4bbb55ac548, type: 3}
+  - {fileID: 3611529117734752613, guid: cee9f301b81c6ab4eb81c6bf42b736d1, type: 3}
+  - {fileID: 3291010644509679192, guid: 13e5b0765c7f64247b15156789a573bd, type: 3}
+  - {fileID: 6141833661097097148, guid: 9989bc19f16289c4292ce2cdb3392a2a, type: 3}
+  - {fileID: 1103916325118136507, guid: 9d950bff69fce72488a797acfbd8f82c, type: 3}
+  - {fileID: 8097643200837242855, guid: 2516f30844519de44a4968ee9fd20a55, type: 3}
+  simonLayer:
+    serializedVersion: 2
+    m_Bits: 1024

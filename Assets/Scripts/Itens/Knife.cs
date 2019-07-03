@@ -14,6 +14,7 @@ public class Knife : MonoBehaviour {
     private CameraMovement cameraMovement;
 
     void Start() {
+        GameManager.gameManager.canThrowIten = false;
         cameraMovement = Camera.main.GetComponent<CameraMovement>();
         collider = GetComponent<Collider2D>();    
         renderer = GetComponent<SpriteRenderer>();
@@ -41,7 +42,7 @@ public class Knife : MonoBehaviour {
         }
 
         if (collider.IsTouchingLayers(groundLayer)) {
-            GameManager.gameManager.DestroyI();
+            GameManager.gameManager.canThrowIten = true;
             Destroy(gameObject);
         }
 

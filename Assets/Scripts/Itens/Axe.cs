@@ -17,6 +17,7 @@ public class Axe : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.gameManager.canThrowIten = false;
         axeAnim = GetComponent<Animator>();
         collider = GetComponent<BoxCollider2D>();
         rigidbody = GetComponent<Rigidbody2D>();
@@ -38,7 +39,7 @@ public class Axe : MonoBehaviour
         }
 
         if (collider.IsTouchingLayers(groundLayer)) {
-            GameManager.gameManager.DestroyI();
+            GameManager.gameManager.canThrowIten = true;
             Destroy(gameObject);
         }
 

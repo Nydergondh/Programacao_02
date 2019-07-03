@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 413566128774079442}
   - component: {fileID: 4362315519550186292}
   - component: {fileID: 3754928006823574474}
+  - component: {fileID: 6039122669793837003}
   m_Layer: 12
   m_Name: Axe_Consumable
   m_TagString: Untagged
@@ -155,3 +156,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.30525303, y: 0.2837847}
   m_EdgeRadius: 0
+--- !u!114 &6039122669793837003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228595261431775367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7095b240108be429ce9970fd300ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  simonLayer:
+    serializedVersion: 2
+    m_Bits: 1024

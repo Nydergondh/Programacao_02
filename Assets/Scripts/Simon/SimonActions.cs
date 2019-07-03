@@ -13,6 +13,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
     public float jumpSpeed = 5f;
     public int whipLv = 1;
     private bool invulnerable;
+
     public LayerMask isPlataform;
     public LayerMask enemyLayer;
 
@@ -49,7 +50,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
 
     void Update() {
         Movement();
-        Attack(CanThrow());
+        Attack();
     }
 
     private void Movement() {
@@ -61,9 +62,15 @@ public class SimonActions : MonoBehaviour, IDamageable {
         simonAnim.SetFloat("Speed" ,delta);
         if (!invulnerable && simonAnim.GetBool("Alive")) {
             if (!simonAnim.GetBool("IsAttacking") || (simonAnim.GetBool("IsJumping") && simonAnim.GetBool("IsAttacking"))) {
+
                 if (delta > 0 || delta < 0) {
                     //is walking
-                    simonAnim.SetBool("IsWalking", true);
+                    if (!simonAnim.GetBool("IsJumping")) {
+                        simonAnim.SetBool("IsWalking", true);
+                    }
+                    else {
+                        simonAnim.SetBool("IsWalking", false);
+                    }
                     vel = new Vector2(delta, rigidbody.velocity.y);
                 }
                 else {
@@ -102,6 +109,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
                 else {
                     rigidbody.velocity = vel;
                 }
+
                 AttColliderSize();
             }
             //check for other types of atacks
@@ -111,40 +119,39 @@ public class SimonActions : MonoBehaviour, IDamageable {
         
     }
 
-    void Attack(bool canThrow) {
+    void Attack() {
 
         // Actions : Item, Whip
         if (!simonAnim.GetBool("IsAttacking") && !invulnerable && simonAnim.GetBool("Alive")) {
             //throw stuff
-            if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && canThrow) {
-
+            if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && GameManager.gameManager.canThrowIten) {
+                print(GameManager.gameManager.canThrowIten);
                 simonAnim.SetBool("Throw", true);
                 simonAnim.SetBool("IsWalking", false);
                 simonAnim.SetBool("IsAttacking", true);
-                StartCoroutine(AttackWait());
-                
-            }
+                StartCoroutine(AttackWait());                
+            }       
 
-            else if (Input.GetKeyDown(KeyCode.Z)) {
-                //play whipAnim
-                if (simonAnim.GetBool("Crouch")) {
-                    CrouchWhip();
+            else if (Input.GetKeyDown(KeyCode.Z) && (!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.W))) {
+                    //play whipAnim
+                    if (simonAnim.GetBool("Crouch")) {
+                        CrouchWhip();
+                    }
+                    else {
+                        Whip();
+                    }
+
+                    AttColliderSize();
+
+                    if (!simonAnim.GetBool("IsJumping")) {
+                        rigidbody.velocity = Vector2.zero;
+                    }
+
+                    simonAnim.SetBool("IsWalking", false);
+                    simonAnim.SetBool("IsAttacking", true);
+
+                    StartCoroutine(AttackWait());
                 }
-                else {
-                    Whip();
-                }
-
-                AttColliderSize();
-
-                if (!simonAnim.GetBool("IsJumping")) {
-                    rigidbody.velocity = Vector2.zero;
-                }
-
-                simonAnim.SetBool("IsWalking", false);
-                simonAnim.SetBool("IsAttacking", true);
-
-                StartCoroutine(AttackWait());
-            }
         }
     }
 
@@ -218,7 +225,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
             whipAnim.SetBool("CrouchWhip", false);
             //checks if GotHit to throw simon in one direction
             if (invulnerable) {
-                ThrowSimon(enemyObj);
+                DamageSimon(enemyObj);
             }
         }
         else {
@@ -234,7 +241,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
             whipAnim.SetBool("CrouchWhip", false);
             //checks if GotHit to throw simon in one direction
             if (invulnerable) {
-                ThrowSimon(enemyObj);
+                DamageSimon(enemyObj);
             }
         }
     }
@@ -247,10 +254,6 @@ public class SimonActions : MonoBehaviour, IDamageable {
         simonRenderer.color = new Color(1, 1, 1, 1);
         simonAnim.SetBool("GetHit", false);
         invulnerable = false;
-    }
-
-    private void DestoryItem(GameObject throwable) {
-        
     }
 
     public IEnumerator Die() {
@@ -266,7 +269,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
             enemyObj = enemyObject;
             health -= damage;
             print("Damage Taken " + damage + " Current Health: " + health);
-            ThrowSimon(enemyObj);
+            DamageSimon(enemyObj);
             StartCoroutine(ApplyDamage());
             if (health <= 0) {
                 simonAnim.SetBool("Alive", false);
@@ -274,7 +277,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
         }
     }
 
-    private void ThrowSimon(GameObject enemyObj)
+    private void DamageSimon(GameObject enemyObj)
     {
         if (enemyObj.transform.localScale.x == 1 && !simonAnim.GetBool("IsAttacking"))
         {
@@ -291,12 +294,5 @@ public class SimonActions : MonoBehaviour, IDamageable {
         simonCollider.offset = Collider.offset;
     }
 
-    private bool CanThrow() {
-        if (throwable.child == null) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    //TODO Create Metodh to consume consumable and do what they do (ALOT OF WORK)
 }
