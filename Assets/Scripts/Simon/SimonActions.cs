@@ -9,7 +9,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
     public int maxHealth = 5;
     public int health;
     public int damage = 3;
-    public float walkSpeed = 5f;
+    public float walkSpeed = 1f;
     public float jumpSpeed = 5f;
     public int whipLv = 1;
     private bool invulnerable;
