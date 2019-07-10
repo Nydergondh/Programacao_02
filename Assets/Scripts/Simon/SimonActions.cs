@@ -125,7 +125,6 @@ public class SimonActions : MonoBehaviour, IDamageable {
         if (!simonAnim.GetBool("IsAttacking") && !invulnerable && simonAnim.GetBool("Alive")) {
             //throw stuff
             if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && GameManager.gameManager.canThrowIten) {
-                print(GameManager.gameManager.canThrowIten);
                 simonAnim.SetBool("Throw", true);
                 simonAnim.SetBool("IsWalking", false);
                 simonAnim.SetBool("IsAttacking", true);
@@ -268,7 +267,6 @@ public class SimonActions : MonoBehaviour, IDamageable {
         {
             enemyObj = enemyObject;
             health -= damage;
-            print("Damage Taken " + damage + " Current Health: " + health);
             DamageSimon(enemyObj);
             StartCoroutine(ApplyDamage());
             if (health <= 0) {

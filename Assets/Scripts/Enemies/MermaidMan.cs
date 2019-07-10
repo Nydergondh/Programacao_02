@@ -19,12 +19,14 @@ public class MermaidMan : MonoBehaviour , IDamageable
     public LayerMask simonLayer;
 
     public GameObject projectile;
+    [SerializeField] Transform projectileSpawn;
 
     private Animator mermaidAnim;
 
     private new Rigidbody2D rigidbody;
     public BoxCollider2D Collider;
     public BoxCollider2D triggerCollider;
+
 
     // Start is called before the first frame update
     void Awake() { 
@@ -63,7 +65,6 @@ public class MermaidMan : MonoBehaviour , IDamageable
                 }
             }
         }
-        
     }
 
     public void OnDamage(int damage, GameObject gameObject) {
@@ -113,31 +114,32 @@ public class MermaidMan : MonoBehaviour , IDamageable
     private Vector2 DecidePosition() {
         //if distance from simon is far and negative
         if (transform.position.x < SimonActions.simon.transform.position.x - 2) {
-            print("Gothere");
             walkSpeed = 2;
+            transform.localScale = new Vector3(-1,1,1);
             return new Vector2(transform.position.x + 2, transform.position.y);
         }
         //if distance from simon is far and positive
         else if (transform.position.x > SimonActions.simon.transform.position.x + 2) {
-            print("Gothere1");
             walkSpeed = -2;
+            transform.localScale = new Vector3(1, 1, 1);
             return new Vector2(transform.position.x - 2, transform.position.y);
         }
         //if distance from simon is negative
         else if (transform.position.x < SimonActions.simon.transform.position.x) {
-            print("Gothere2");
             walkSpeed = 2;
+            transform.localScale = new Vector3(-1, 1, 1);
             return new Vector2(SimonActions.simon.transform.position.x + 2, SimonActions.simon.transform.position.y);
         }
         //if distance from simon is positive
         else if (transform.position.x > SimonActions.simon.transform.position.x) {
-            print("Gothere3");
             walkSpeed = -2;
+            transform.localScale = new Vector3(1, 1, 1);
             return new Vector2(SimonActions.simon.transform.position.x - 2, SimonActions.simon.transform.position.y);
         }
         //if distance = 0
         else {
-            print("Gothere4");
+            walkSpeed = 2;
+            transform.localScale = new Vector3(-1, 1, 1);
             return new Vector2(transform.position.x + 2, transform.position.y);
         }
     }
@@ -151,6 +153,6 @@ public class MermaidMan : MonoBehaviour , IDamageable
     }
     //event called in the Attack animation
     public void ShotProjectile() {
-        //Instantiate(projectile, transform.position, Quaternion.identity, transform);
+        Instantiate(projectile, transform.position, Quaternion.identity, projectileSpawn);
     }
 }
