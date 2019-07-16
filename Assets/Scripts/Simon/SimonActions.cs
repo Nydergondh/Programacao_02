@@ -12,6 +12,8 @@ public class SimonActions : MonoBehaviour, IDamageable {
     public float walkSpeed = 1f;
     public float jumpSpeed = 5f;
     public int whipLv = 1;
+
+    public bool transitioning;
     private bool invulnerable;
 
     public LayerMask isPlataform;
@@ -42,6 +44,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
     
     void Start() {
         health = maxHealth;
+        transitioning = false;
         invulnerable = false;
         simonCollider = GetComponent<BoxCollider2D>();
         rigidbody = GetComponent<Rigidbody2D>();
@@ -290,6 +293,14 @@ public class SimonActions : MonoBehaviour, IDamageable {
     private void AttColliderSize() {
         simonCollider.size = Collider.size;
         simonCollider.offset = Collider.offset;
+    }
+
+    public IEnumerator WaitForTransition() {
+        transitioning = true;
+        yield return new WaitForSeconds(3f);
+        CameraMovement currentCamera = Camera.main.GetComponent<CameraMovement>();
+        currentCamera.ChangeCheckPoints();
+        transitioning = false;
     }
 
     //TODO Create Metodh to consume consumable and do what they do (ALOT OF WORK)

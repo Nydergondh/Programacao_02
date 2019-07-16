@@ -45,7 +45,6 @@ public class Knife : MonoBehaviour {
             GameManager.gameManager.canThrowIten = true;
             Destroy(gameObject);
         }
-
     }
 
 }

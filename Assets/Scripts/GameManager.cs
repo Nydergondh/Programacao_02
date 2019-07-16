@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
-    public List<Transform> scenarioTransforms;
+    public Scenario currentScenario;
+    public Scenario[] scenarios;
     public bool canThrowIten = true;
+    private int i = 0;
 
     public delegate int ConsumableConsumed();
     public ConsumableConsumed Consumed;
@@ -20,7 +22,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameManager);
             gameManager = this;
         }
-        scenarioTransforms = new List<Transform>();
+
     }
 
     // Update is called once per frame
@@ -31,16 +33,15 @@ public class GameManager : MonoBehaviour
             StartCoroutine(WaitEndGame());
         }
     }
-    
-    public void CurrentScenario(Scenario currentScenario) {
-        foreach (Transform checkpoint in currentScenario.GetCheckPoints()) {
-            scenarioTransforms.Add(checkpoint);
-        } 
-    }
 
     private IEnumerator WaitEndGame() {
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("Simon_test");
+    }
+
+    public void ChangeScene() {
+        i += 1;
+        currentScenario = scenarios[i];
     }
 
 }

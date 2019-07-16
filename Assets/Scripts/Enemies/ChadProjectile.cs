@@ -2,18 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChadProjectile : MonoBehaviour
+public class ChadProjectile : MonoBehaviour, IDamageable
 {
+    
     public float speed = 3f;
-    BoxCollider2D boxCollider2D;
-    private Transform parentOrientation;    // Start is called before the first frame update
+    public int damage;
+
+    private BoxCollider2D boxCollider2D;
+    private SpriteRenderer spriteRenderer;
+    public Transform parentOrientation;
+    public LayerMask simonLayer;
+
+    public delegate Transform ParentDirection();
+    // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider2D = GetComponent<BoxCollider2D>();
-        parentOrientation = GetComponentInParent<Transform>();
         if (parentOrientation.localScale.x == 1)
         {
             speed *= -1;
+        }
+        else {
+            spriteRenderer.flipX = true;
         }
     }
 
@@ -31,5 +42,21 @@ public class ChadProjectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collider) {
+
+        if (boxCollider2D.IsTouchingLayers(simonLayer)) {
+            var damageable = collider.GetComponent<IDamageable>();
+            if (damageable != null) {
+                damageable.OnDamage(damage, gameObject);
+            }
+        }
+
+    }
+
+    public void OnDamage(int damage, GameObject gameObject) {
+        Destroy(gameObject);
     }
 }

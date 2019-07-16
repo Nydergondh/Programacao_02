@@ -13,6 +13,8 @@ public class CameraMovement : MonoBehaviour
 
     public Transform rigthLimit;
     public Transform leftLimit;
+
+    public bool freeMove;
     // Start is called before the first frame update
 
     void Start()
@@ -25,8 +27,17 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         //checks if the player is moving next to a checkpóint (so that the camera stops)
-        if (transformFollow.position.x < checkPointRigth.position.x && transformFollow.position.x > checkPointLeft.position.x) { 
+        if ((transformFollow.position.x < checkPointRigth.position.x && transformFollow.position.x > checkPointLeft.position.x) || freeMove) { 
             transform.position = new Vector3(transformFollow.position.x, transform.position.y, -10);
         }
+    }
+
+    public void ChangeCheckPoints() {
+        checkPointLeft = GameManager.gameManager.currentScenario.checkPointLeft;
+        checkPointRigth = GameManager.gameManager.currentScenario.checkPointRigth;
+    }
+
+    public void ChangeCameraMovement() {
+        freeMove = !freeMove;
     }
 }

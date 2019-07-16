@@ -24,10 +24,8 @@ public class MermaidMan : MonoBehaviour , IDamageable
     private Animator mermaidAnim;
 
     private new Rigidbody2D rigidbody;
-    public BoxCollider2D Collider;
+    private new BoxCollider2D collider;
     public BoxCollider2D triggerCollider;
-
-
     // Start is called before the first frame update
     void Awake() { 
         walk = false;
@@ -37,6 +35,7 @@ public class MermaidMan : MonoBehaviour , IDamageable
     }
 
     void Start() {
+        collider = GetComponent<BoxCollider2D>();
         mermaidAnim = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
         if(jump){
@@ -79,8 +78,7 @@ public class MermaidMan : MonoBehaviour , IDamageable
     }
 
     public IEnumerator DestroyMermaid() { //sad boys
-        Collider.enabled = false;
-        triggerCollider.enabled = false;
+        collider.enabled = false;
         mermaidAnim.SetBool("Dead", true);
         yield return new WaitForSeconds(0.355f);
         Destroy(gameObject);
@@ -100,8 +98,9 @@ public class MermaidMan : MonoBehaviour , IDamageable
             mermaidAnim.SetBool("Walk", true);
             mermaidAnim.SetBool("Attack", false);
             mermaidAnim.SetBool("Jump", false);
-            Collider.enabled = true;
+            collider.enabled = true;
         }
+
 
         if (triggerCollider.IsTouchingLayers(simonLayer)) {
             var damageable = collision.GetComponent<IDamageable>();
@@ -153,6 +152,10 @@ public class MermaidMan : MonoBehaviour , IDamageable
     }
     //event called in the Attack animation
     public void ShotProjectile() {
-        Instantiate(projectile, transform.position, Quaternion.identity, projectileSpawn);
+        GameObject proj = Instantiate(projectile, projectileSpawn.position, Quaternion.identity);
+        ChadProjectile chad = proj.GetComponent<ChadProjectile>();
+        chad.parentOrientation = transform;
+        chad.damage = damage;
     }
+
 }

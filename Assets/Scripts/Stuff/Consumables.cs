@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Consumables : MonoBehaviour
 {
-    private int idConsumable;
+    public int idConsumable;
     public LayerMask simonLayer;
     BoxCollider2D boxCollider;
 
