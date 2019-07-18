@@ -38,6 +38,8 @@ public class Knife : MonoBehaviour {
             var damageable = enemy.GetComponent<IDamageable>();
             if (damageable != null) {
                 damageable.OnDamage(damage, gameObject);
+                GameManager.gameManager.canThrowIten = true;
+                Destroy(gameObject);
             }
         }
 

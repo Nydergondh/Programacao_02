@@ -5,10 +5,11 @@ using UnityEngine;
 public class Consumables : MonoBehaviour
 {
     public int idConsumable;
+    public int points;
     public LayerMask simonLayer;
     BoxCollider2D boxCollider;
 
-    private void Start() {
+    void Start() {
         boxCollider = GetComponent<BoxCollider2D>();
         GameManager.gameManager.Consumed += GetId;
     }

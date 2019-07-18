@@ -301,8 +301,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c73f0d2dbc5ac648a947349b941b49f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ZombiesPrefab: {fileID: 6503621195383204465, guid: 38404dfed11ff4249ba685ad6683400a,
-    type: 3}
+  Prefab: {fileID: 0}
+  scenarioId: 0
+  limitLeft: {fileID: 0}
+  limitRigth: {fileID: 0}
+  zombieSpawn: 0
+  batSpawn: 0
+  merManSpawn: 0
+  timeToSpawn: 3
+  DistanceSpawn: 2
+  DistanceToStop: 6
 --- !u!1 &743990306
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +340,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d55b7d9fba58ba4f98b2dd68099e1c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkPoints: []
+  checkPointLeft: {fileID: 0}
+  checkPointRigth: {fileID: 0}
+  target: {fileID: 0}
+  StartCameraPosition: {x: 0, y: 0, z: 0}
+  isChanging: 0
+  holeTransit: 0
+  doorTransit: 0
+  bossScenario: 0
+  simonLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  LeftCollider: {fileID: 0}
+  RigthCollider: {fileID: 0}
 --- !u!4 &743990308
 Transform:
   m_ObjectHideFlags: 0
@@ -378,8 +398,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b30910e48cb064b81d2f660c9aa0e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenarioTransforms: []
+  currentScenario: {fileID: 0}
+  scenarios: []
   canThrowIten: 1
+  i: 0
 --- !u!4 &867045059
 Transform:
   m_ObjectHideFlags: 0
@@ -1367,6 +1389,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58fdaade872c3684aad170e7c8695787, type: 3}
+--- !u!61 &1635409577 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 269140778, guid: f3276d58aab4ce24e919bc1a374fcf73,
+    type: 3}
+  m_PrefabInstance: {fileID: 7177194308031645643}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1902510011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1796,7 +1824,7 @@ PrefabInstance:
     - target: {fileID: 7134539515227012186, guid: c8d6270bb6f8d484a898692af37ebd2f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7134539515227012176, guid: c8d6270bb6f8d484a898692af37ebd2f,
         type: 3}
@@ -1806,7 +1834,7 @@ PrefabInstance:
     - target: {fileID: 7134539515227012176, guid: c8d6270bb6f8d484a898692af37ebd2f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.61
+      value: 0.42
       objectReference: {fileID: 0}
     - target: {fileID: 7134539515227012176, guid: c8d6270bb6f8d484a898692af37ebd2f,
         type: 3}
@@ -1932,15 +1960,20 @@ PrefabInstance:
       propertyPath: consumableLayer.m_Bits
       value: 4096
       objectReference: {fileID: 0}
-    - target: {fileID: 7177194307055090417, guid: f3276d58aab4ce24e919bc1a374fcf73,
+    - target: {fileID: 7177194308018046731, guid: f3276d58aab4ce24e919bc1a374fcf73,
         type: 3}
-      propertyPath: destroyableLayer.m_Bits
-      value: 8192
-      objectReference: {fileID: 0}
+      propertyPath: collider
+      value: 
+      objectReference: {fileID: 1635409577}
     - target: {fileID: 7177194308018046728, guid: f3276d58aab4ce24e919bc1a374fcf73,
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7177194307055090417, guid: f3276d58aab4ce24e919bc1a374fcf73,
+        type: 3}
+      propertyPath: destroyableLayer.m_Bits
+      value: 8192
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3276d58aab4ce24e919bc1a374fcf73, type: 3}

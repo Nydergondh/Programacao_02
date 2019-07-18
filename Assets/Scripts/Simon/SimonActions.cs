@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SimonActions : MonoBehaviour, IDamageable {
 
@@ -15,6 +16,8 @@ public class SimonActions : MonoBehaviour, IDamageable {
 
     public bool transitioning;
     private bool invulnerable;
+    public bool canUseStairs;
+    private bool usingStairs;
 
     public LayerMask isPlataform;
     public LayerMask enemyLayer;
@@ -25,10 +28,11 @@ public class SimonActions : MonoBehaviour, IDamageable {
     public Animator whipAnim;
 
     private GameObject enemyObj;
-    private Throables throwable;
-    private new Rigidbody2D  rigidbody;
+    public Stairs stair { get; set; }
+    public Throables throwable { get; private set; }
+    public new Rigidbody2D rigidbody { get; set; }
     public BoxCollider2D feetCollider;
-    public BoxCollider2D Collider;
+    public new BoxCollider2D collider;
     private BoxCollider2D simonCollider;
 
     void Awake() {
@@ -44,16 +48,27 @@ public class SimonActions : MonoBehaviour, IDamageable {
     
     void Start() {
         health = maxHealth;
+
+        usingStairs = false;
         transitioning = false;
         invulnerable = false;
+        
+
         simonCollider = GetComponent<BoxCollider2D>();
         rigidbody = GetComponent<Rigidbody2D>();
         throwable = GetComponentInChildren<Throables>();
     }
 
     void Update() {
-        Movement();
-        Attack();
+        if (!transitioning) {
+            Movement();
+            Attack();
+        }
+        
+        else {
+            Transit();
+        }
+        
     }
 
     private void Movement() {
@@ -65,6 +80,11 @@ public class SimonActions : MonoBehaviour, IDamageable {
         simonAnim.SetFloat("Speed" ,delta);
         if (!invulnerable && simonAnim.GetBool("Alive")) {
             if (!simonAnim.GetBool("IsAttacking") || (simonAnim.GetBool("IsJumping") && simonAnim.GetBool("IsAttacking"))) {
+                /*
+                if (usingStairs) {
+                    UseStairs();
+                }
+                */
 
                 if (delta > 0 || delta < 0) {
                     //is walking
@@ -74,7 +94,12 @@ public class SimonActions : MonoBehaviour, IDamageable {
                     else {
                         simonAnim.SetBool("IsWalking", false);
                     }
-                    vel = new Vector2(delta, rigidbody.velocity.y);
+                    if (rigidbody.velocity.y == 0) {
+                        vel = new Vector2(delta, rigidbody.velocity.y);
+                    }
+                    else {
+                        vel = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y);
+                    }
                 }
                 else {
                     //is not walking
@@ -82,16 +107,16 @@ public class SimonActions : MonoBehaviour, IDamageable {
                     vel = new Vector2(0, rigidbody.velocity.y);
                 }
 
-                if (Input.GetButton("Crouch") && !simonAnim.GetBool("IsJumping")) {
+                if (Input.GetButton("Crouch") && !simonAnim.GetBool("IsJumping") && rigidbody.velocity.y == 0) {
                     //is crouching
                     simonAnim.SetBool("Crouch", true);
                     simonAnim.SetBool("IsWalking", false);
-                    vel = new Vector2(0,rigidbody.velocity.y);
+                    vel = new Vector2(0, rigidbody.velocity.y);
                 }
                 else {
                     //is not crouching
                     simonAnim.SetBool("Crouch", false);
-                    vel = new Vector2(delta, rigidbody.velocity.y);
+                    vel = new Vector2(vel.x, rigidbody.velocity.y);
                 }
                 //jump
                 if (CheckGround() && !simonAnim.GetBool("IsJumping") && Input.GetButtonDown("Jump") && !simonAnim.GetBool("Crouch")) {
@@ -102,7 +127,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
                 }
                 //is on the middle of the air
                 else if (!CheckGround() && simonAnim.GetBool("IsJumping")) {
-
+                    rigidbody.velocity = new Vector2(rigidbody.velocity.x,rigidbody.velocity.y);
                 }
                 //was jumping and now touched the ground
                 else if (CheckGround() && simonAnim.GetBool("IsJumping") && rigidbody.velocity.y <= 0) {
@@ -112,8 +137,14 @@ public class SimonActions : MonoBehaviour, IDamageable {
                 else {
                     rigidbody.velocity = vel;
                 }
+                //is falling from plataform
+                if (!simonAnim.GetBool("IsJumping") && rigidbody.velocity.y < 0) {
+                    simonAnim.SetBool("IsWalking", false);
+                    rigidbody.velocity = new Vector2(0, rigidbody.velocity.y);
+                }
 
                 AttColliderSize();
+                
             }
             //check for other types of atacks
             //create an input with keys (down | s)
@@ -282,26 +313,74 @@ public class SimonActions : MonoBehaviour, IDamageable {
     {
         if (enemyObj.transform.localScale.x == 1 && !simonAnim.GetBool("IsAttacking"))
         {
-            rigidbody.velocity = new Vector2(-1, 2);
+            rigidbody.velocity = new Vector2(-1, 2.5f);
         }
         else if (enemyObj.transform.localScale.x == -1 && !simonAnim.GetBool("IsAttacking"))
         {
-            rigidbody.velocity = new Vector2(1, 2);
+            rigidbody.velocity = new Vector2(1, 2.5f);
         }
     }
     //gambiarra para atualizar o tamanho do collider
     private void AttColliderSize() {
-        simonCollider.size = Collider.size;
-        simonCollider.offset = Collider.offset;
+        simonCollider.size = collider.size;
+        simonCollider.offset = collider.offset;
+    }
+    //Sets Transition Stage (Called in GameManager)
+    public void SetTransition() {
+        rigidbody.velocity = new Vector2(0, rigidbody.velocity.y);
+        transitioning = true;       
     }
 
-    public IEnumerator WaitForTransition() {
-        transitioning = true;
-        yield return new WaitForSeconds(3f);
-        CameraMovement currentCamera = Camera.main.GetComponent<CameraMovement>();
-        currentCamera.ChangeCheckPoints();
-        transitioning = false;
+    public void Transit() {
+        //castle transit
+        if(!GameManager.gameManager.currentScenario.holeTransit && !GameManager.gameManager.currentScenario.doorTransit) {
+            rigidbody.velocity = new Vector2(1f, rigidbody.velocity.y);
+        }
+        //hole transit
+        else if (GameManager.gameManager.currentScenario.holeTransit && !GameManager.gameManager.currentScenario.doorTransit) {
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, rigidbody.velocity.y);
+        }
+        //door transit
+        else if (!GameManager.gameManager.currentScenario.holeTransit && GameManager.gameManager.currentScenario.doorTransit) {
+            CameraMovement camera = Camera.main.GetComponent<CameraMovement>();
+            if (camera.transitCamera) {
+                rigidbody.velocity = new Vector2(1f, rigidbody.velocity.y);
+            }
+            else {
+                simonAnim.SetBool("IsWalking", false);
+                rigidbody.velocity = new Vector2(0f, rigidbody.velocity.y);
+            }
+        }
     }
 
+    public bool CanTrasint() {
+        if (simonAnim.GetBool("Alive") && !simonAnim.GetBool("IsJumping") && !simonAnim.GetBool("Crouch") && !simonAnim.GetBool("IsAttacking") && simonAnim.GetBool("IsWalking")) {
+            return true;
+        }
+        else if (simonAnim.GetBool("Alive") && !simonAnim.GetBool("IsJumping") && !simonAnim.GetBool("Crouch") && !simonAnim.GetBool("IsAttacking") && 
+                !simonAnim.GetBool("IsWalking") && (rigidbody.velocity.y > 0 || rigidbody.velocity.y < 0)) {
+
+            return true;
+        }
+        return false;
+    }
+    /*
+    public void UseStairs() {
+
+        if (Input.GetKey(KeyCode.UpArrow) && stair.currentStair < stair.stairs.Count) {
+            stair.currentStair += 1;
+            rigidbody.MovePosition(stair.stairs[stair.currentStair].position);
+        }
+        else if (Input.GetKey(KeyCode.DownArrow) && stair.currentStair > 0) {
+            stair.currentStair -= 1;
+            rigidbody.MovePosition(stair.stairs[stair.currentStair].position);
+        }
+        else {
+            rigidbody.gravityScale = 1;
+            canUseStairs = false;
+        }
+
+    }
+    */
     //TODO Create Metodh to consume consumable and do what they do (ALOT OF WORK)
 }

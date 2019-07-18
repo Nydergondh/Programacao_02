@@ -6,8 +6,9 @@ public class MermaidMan : MonoBehaviour , IDamageable
 {
 
     private int health = 3;
-    public int damage = 3;
-    private float walkSpeed = 2f;
+    public int damage = 1;
+    private float walkSpeed = 1f;
+    public float jumpSpeed = 7.25f;
 
     public bool walk;
     public bool jump;
@@ -24,7 +25,7 @@ public class MermaidMan : MonoBehaviour , IDamageable
     private Animator mermaidAnim;
 
     private new Rigidbody2D rigidbody;
-    private new BoxCollider2D collider;
+    public new BoxCollider2D collider;
     public BoxCollider2D triggerCollider;
     // Start is called before the first frame update
     void Awake() { 
@@ -38,9 +39,8 @@ public class MermaidMan : MonoBehaviour , IDamageable
         collider = GetComponent<BoxCollider2D>();
         mermaidAnim = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
-        if(jump){
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, 5);
-        }
+        rigidbody.velocity = new Vector2(0, jumpSpeed);
+        
     }
 
     // Update is called once per frame
@@ -64,10 +64,13 @@ public class MermaidMan : MonoBehaviour , IDamageable
                 }
             }
         }
+        print(rigidbody.velocity);
+        OutOffScreen();
     }
 
     public void OnDamage(int damage, GameObject gameObject) {
         health -= damage;
+        print("OnDamage");
         if (health <= 0) {
             mermaidAnim.SetBool("Walk", false);
             mermaidAnim.SetBool("Attack", false);
@@ -91,55 +94,36 @@ public class MermaidMan : MonoBehaviour , IDamageable
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if (triggerCollider.IsTouchingLayers(isPlataform) && rigidbody.velocity.y < 0) {
-            walk = true;
-            jump = false;
-            mermaidAnim.SetBool("Walk", true);
-            mermaidAnim.SetBool("Attack", false);
-            mermaidAnim.SetBool("Jump", false);
-            collider.enabled = true;
-        }
-
-
-        if (triggerCollider.IsTouchingLayers(simonLayer)) {
-            var damageable = collision.GetComponent<IDamageable>();
-            if (damageable != null) {
-                damageable.OnDamage(damage, gameObject);
-            }
-        }
-    }
-
     private Vector2 DecidePosition() {
         //if distance from simon is far and negative
-        if (transform.position.x < SimonActions.simon.transform.position.x - 2) {
-            walkSpeed = 2;
+        if (transform.position.x <= SimonActions.simon.transform.position.x - 1) {
+            walkSpeed = 1;
             transform.localScale = new Vector3(-1,1,1);
-            return new Vector2(transform.position.x + 2, transform.position.y);
+            return new Vector2(transform.position.x + 1, transform.position.y);
         }
         //if distance from simon is far and positive
-        else if (transform.position.x > SimonActions.simon.transform.position.x + 2) {
-            walkSpeed = -2;
+        else if (transform.position.x >= SimonActions.simon.transform.position.x + 1) {
+            walkSpeed = -1;
             transform.localScale = new Vector3(1, 1, 1);
-            return new Vector2(transform.position.x - 2, transform.position.y);
+            return new Vector2(transform.position.x - 1, transform.position.y);
         }
         //if distance from simon is negative
-        else if (transform.position.x < SimonActions.simon.transform.position.x) {
-            walkSpeed = 2;
+        else if (transform.position.x <= SimonActions.simon.transform.position.x) {
+            walkSpeed = 1;
             transform.localScale = new Vector3(-1, 1, 1);
-            return new Vector2(SimonActions.simon.transform.position.x + 2, SimonActions.simon.transform.position.y);
+            return new Vector2(SimonActions.simon.transform.position.x + 1, SimonActions.simon.transform.position.y);
         }
         //if distance from simon is positive
-        else if (transform.position.x > SimonActions.simon.transform.position.x) {
-            walkSpeed = -2;
+        else if (transform.position.x >= SimonActions.simon.transform.position.x) {
+            walkSpeed = -1;
             transform.localScale = new Vector3(1, 1, 1);
-            return new Vector2(SimonActions.simon.transform.position.x - 2, SimonActions.simon.transform.position.y);
+            return new Vector2(SimonActions.simon.transform.position.x - 1, SimonActions.simon.transform.position.y);
         }
         //if distance = 0
         else {
-            walkSpeed = 2;
+            walkSpeed = 1;
             transform.localScale = new Vector3(-1, 1, 1);
-            return new Vector2(transform.position.x + 2, transform.position.y);
+            return new Vector2(transform.position.x + 1, transform.position.y);
         }
     }
     //event used in the end of an attack

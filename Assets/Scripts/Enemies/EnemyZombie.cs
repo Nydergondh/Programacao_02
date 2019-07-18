@@ -13,7 +13,7 @@ public class EnemyZombie : MonoBehaviour, IDamageable, IDestroyOffScreen {
     private bool canDestroy = false; //bad name (consider changing)
 
     public LayerMask simonLayer;
-    public float zombieSpeed = 3f;
+    public float zombieSpeed = 1f;
 
     // Start is called before the first frame update
     void Start()

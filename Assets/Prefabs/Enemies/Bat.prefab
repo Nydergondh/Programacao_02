@@ -49,7 +49,7 @@ MonoBehaviour:
   simonLayer:
     serializedVersion: 2
     m_Bits: 1024
-  batSpeed: 3
+  batSpeed: 2
 --- !u!95 &1161628816203939349
 Animator:
   serializedVersion: 3

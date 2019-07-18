@@ -11,7 +11,7 @@ public class EnemyBat : MonoBehaviour, IDamageable, IDestroyOffScreen
     private Animator batAnim;
 
     public LayerMask simonLayer;
-    public float batSpeed = 3f;
+    public float batSpeed = 2f;
 
     // Start is called before the first frame update
     void Start() {
