@@ -202,6 +202,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
     }
 
     private void Whip() {
+        whipAnim.speed = 1.25f;
         if (whipLv == 1) {
             whipAnim.SetBool("Whip", true);
             whipAnim.SetInteger("WhipLv", 1);
@@ -251,8 +252,10 @@ public class SimonActions : MonoBehaviour, IDamageable {
 
     IEnumerator AttackWait() {
         if (!simonAnim.GetBool("Throw")) {
-            yield return new WaitForSeconds(0.518f);
+            simonAnim.speed = 1.25f;
+            yield return new WaitForSeconds(0.518f / 1.5f);
             //set all the attack variables to 
+            simonAnim.speed = 1.0f;
             simonAnim.SetBool("IsAttacking", false);
             whipAnim.SetBool("Whip", false);
             whipAnim.SetBool("CrouchWhip", false);
@@ -292,6 +295,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
     public IEnumerator Die() {
         invulnerable = true;
         simonAnim.SetBool("Alive", false);
+        rigidbody.velocity = Vector2.zero;
         yield return new WaitForSeconds(1.52f);
         invulnerable = false;      
     }
