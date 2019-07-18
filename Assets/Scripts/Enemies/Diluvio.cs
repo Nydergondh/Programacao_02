@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MerManDamage : MonoBehaviour
+public class Diluvio : MonoBehaviour
 {
+    private int damage;
+    public LayerMask simonLayer;
     private BoxCollider2D boxCollider;
-    private MermaidMan mermaid;
-
-    void Start() {
-        mermaid = GetComponentInParent<MermaidMan>();
+    // Start is called before the first frame update
+    void Start()
+    {
+        damage = 5000;
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
 
     private void OnTriggerEnter2D(Collider2D collider) {
-
-        if (boxCollider.IsTouchingLayers(mermaid.simonLayer)) {
+        if (boxCollider.IsTouchingLayers(simonLayer)) {
             var damageable = collider.GetComponent<IDamageable>();
             if (damageable != null) {
-                damageable.OnDamage(mermaid.damage, gameObject);
+                damageable.OnDamage(damage, gameObject);
             }
         }
-
     }
 }

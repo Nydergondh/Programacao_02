@@ -93,7 +93,7 @@ public class EnemySpanwer : MonoBehaviour
 
 
                 if (merManSpawn && !waitTime) {
-                    if (transform.childCount == 0) {
+                    if (enemieParent.childCount == 3) {
                         canSpawn = true;
                     }
                 }

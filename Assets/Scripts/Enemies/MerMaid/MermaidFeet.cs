@@ -14,6 +14,7 @@ public class MermaidFeet : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider) {
         if (collider.gameObject.layer == 8) {
+            print("GotHere");
             mermaid.collider.enabled = true;
             mermaid.walk = true;
             mermaid.jump = false;

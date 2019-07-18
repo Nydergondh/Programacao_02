@@ -22,7 +22,7 @@ public class MermaidMan : MonoBehaviour , IDamageable
     public GameObject projectile;
     [SerializeField] Transform projectileSpawn;
 
-    private Animator mermaidAnim;
+    public Animator mermaidAnim { get; private set; }
 
     private new Rigidbody2D rigidbody;
     public new BoxCollider2D collider;
@@ -40,13 +40,15 @@ public class MermaidMan : MonoBehaviour , IDamageable
         mermaidAnim = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
         rigidbody.velocity = new Vector2(0, jumpSpeed);
-        
+        //StartCoroutine(WaitBegin());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (walk) {
+        if (walk && rigidbody.velocity.y == 0 && !mermaidAnim.GetBool("Dead"))
+        {
+
             if (!attack) {
                 if (!waitWalk) {
                     currentDestination = DecidePosition();
@@ -61,10 +63,11 @@ public class MermaidMan : MonoBehaviour , IDamageable
                 }
                 else {
                     rigidbody.velocity = new Vector2(walkSpeed, rigidbody.velocity.y);
+                    mermaidAnim.SetBool("Walk", true);
+                    mermaidAnim.SetBool("Jump", false);
                 }
             }
         }
-        print(rigidbody.velocity);
         OutOffScreen();
     }
 
@@ -81,8 +84,8 @@ public class MermaidMan : MonoBehaviour , IDamageable
     }
 
     public IEnumerator DestroyMermaid() { //sad boys
-        collider.enabled = false;
-        mermaidAnim.SetBool("Dead", true);
+        rigidbody.velocity = Vector2.zero;
+        rigidbody.isKinematic = true;
         yield return new WaitForSeconds(0.355f);
         Destroy(gameObject);
     }
@@ -96,34 +99,38 @@ public class MermaidMan : MonoBehaviour , IDamageable
 
     private Vector2 DecidePosition() {
         //if distance from simon is far and negative
-        if (transform.position.x <= SimonActions.simon.transform.position.x - 1) {
+        if (transform.position.x < SimonActions.simon.transform.position.x - 1.5f) {
+            print("GotHere");
             walkSpeed = 1;
             transform.localScale = new Vector3(-1,1,1);
-            return new Vector2(transform.position.x + 1, transform.position.y);
+            return new Vector2(transform.position.x + 1.5f, transform.position.y);
         }
         //if distance from simon is far and positive
-        else if (transform.position.x >= SimonActions.simon.transform.position.x + 1) {
+        else if (transform.position.x > SimonActions.simon.transform.position.x + 1.5f) {
+            print("GotHere3");
             walkSpeed = -1;
             transform.localScale = new Vector3(1, 1, 1);
-            return new Vector2(transform.position.x - 1, transform.position.y);
+            return new Vector2(transform.position.x - 1.5f, transform.position.y);
         }
         //if distance from simon is negative
-        else if (transform.position.x <= SimonActions.simon.transform.position.x) {
+        else if (transform.position.x < SimonActions.simon.transform.position.x) {
+            print("GotHere2");
             walkSpeed = 1;
             transform.localScale = new Vector3(-1, 1, 1);
-            return new Vector2(SimonActions.simon.transform.position.x + 1, SimonActions.simon.transform.position.y);
+            return new Vector2(SimonActions.simon.transform.position.x + 1.5f, transform.position.y);
         }
         //if distance from simon is positive
-        else if (transform.position.x >= SimonActions.simon.transform.position.x) {
+        else if (transform.position.x > SimonActions.simon.transform.position.x) {
+            print("GotHere3");
             walkSpeed = -1;
             transform.localScale = new Vector3(1, 1, 1);
-            return new Vector2(SimonActions.simon.transform.position.x - 1, SimonActions.simon.transform.position.y);
+            return new Vector2(SimonActions.simon.transform.position.x - 1.5f, transform.position.y);
         }
         //if distance = 0
         else {
             walkSpeed = 1;
             transform.localScale = new Vector3(-1, 1, 1);
-            return new Vector2(transform.position.x + 1, transform.position.y);
+            return new Vector2(transform.position.x + -1.5f, transform.position.y);
         }
     }
     //event used in the end of an attack
@@ -142,4 +149,8 @@ public class MermaidMan : MonoBehaviour , IDamageable
         chad.damage = damage;
     }
 
+    IEnumerator WaitBegin() {
+        yield return new WaitForSeconds(2f);
+
+    }
 }

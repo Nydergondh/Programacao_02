@@ -89,6 +89,7 @@ public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
 
     public IEnumerator DestroyXita() { //sad boys
         xitaAnim.SetBool("Dead", true);
+        rigidbody.velocity = Vector2.zero;
         yield return new WaitForSeconds(0.355f);
         Destroy(gameObject);
     }

@@ -29,20 +29,22 @@ public class CameraMovement : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //checks if the player is moving next to a checkpóint (so that the camera stops)
-        if (testMode) {
-            transform.position = new Vector3(transformFollow.position.x, transform.position.y, -10);
-        }
-        else if (!transitCamera) {
-            if ((transformFollow.position.x < checkPointRigth.position.x && transformFollow.position.x > checkPointLeft.position.x) && !freeMove && !testMode) {
+        if (SimonActions.simon.simonAnim.GetBool("Alive")) {
+            if (testMode) {
                 transform.position = new Vector3(transformFollow.position.x, transform.position.y, -10);
             }
-        }
-        else if(transitCamera){
-            float xpos = speedTransit * Time.deltaTime;
-            transform.position = new Vector3(transform.position.x + xpos , transform.position.y, -10);
+            else if (!transitCamera) {
+                if ((transformFollow.position.x < checkPointRigth.position.x && transformFollow.position.x > checkPointLeft.position.x) && !freeMove && !testMode) {
+                    transform.position = new Vector3(transformFollow.position.x, transform.position.y, -10);
+                }
+            }
+            else if (transitCamera) {
+                float xpos = speedTransit * Time.deltaTime;
+                transform.position = new Vector3(transform.position.x + xpos, transform.position.y, -10);
 
-            if (transform.position.x >= GameManager.gameManager.currentScenario.target.position.x) {
-                transitCamera = false;
+                if (transform.position.x >= GameManager.gameManager.currentScenario.target.position.x) {
+                    transitCamera = false;
+                }
             }
         }
 
