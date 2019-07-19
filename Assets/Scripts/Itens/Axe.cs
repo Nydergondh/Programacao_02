@@ -8,7 +8,10 @@ public class Axe : MonoBehaviour
     private new BoxCollider2D collider;
     private Animator axeAnim;
 
-    public int damage = 16;
+    private AudioSource audioSource;
+    public AudioClip axeShoot;
+
+    public int damage = 2;
     public float yVelocity = 4f;
     public float xVelocity = 3f;
 
@@ -17,6 +20,9 @@ public class Axe : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = axeShoot;
+        audioSource.Play();
         GameManager.gameManager.canThrowIten = false;
         axeAnim = GetComponent<Animator>();
         collider = GetComponent<BoxCollider2D>();

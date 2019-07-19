@@ -14,6 +14,11 @@ public class SimonActions : MonoBehaviour, IDamageable {
     public float jumpSpeed = 5f;
     public int whipLv = 1;
 
+    public AudioSource audioSource;
+    public AudioClip getHit;
+    public AudioClip WhipMiss;
+    public AudioClip gameOver;
+
     public bool freeJump;
     public bool transitioning;
     private bool gotHit;
@@ -47,6 +52,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
     }
     
     void Start() {
+        audioSource = GetComponent<AudioSource>();
         health = maxHealth;
         usingStairs = false;
         transitioning = false;
@@ -194,7 +200,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
 
                     simonAnim.SetBool("IsWalking", false);
                     simonAnim.SetBool("IsAttacking", true);
-
+                    
                     StartCoroutine(AttackWait());
                 
                 }
@@ -215,6 +221,8 @@ public class SimonActions : MonoBehaviour, IDamageable {
     }
 
     private void Whip() {
+        audioSource.clip = WhipMiss;
+        simon.audioSource.Play();
         whipAnim.speed = 1.25f;
         if (whipLv == 1) {
             damage = 1;
@@ -234,6 +242,8 @@ public class SimonActions : MonoBehaviour, IDamageable {
     }
 
     private void CrouchWhip() {
+        audioSource.clip = simon.WhipMiss;
+        audioSource.Play();
         whipAnim.speed = 1.25f;
         if (whipLv == 1) {
             damage = 1;
@@ -305,6 +315,8 @@ public class SimonActions : MonoBehaviour, IDamageable {
     IEnumerator ApplyDamage() {
         gotHit = true;
         simonAnim.SetBool("GetHit", true);
+        audioSource.clip = getHit;
+        audioSource.Play();
         StartCoroutine(Invincibility());
         yield return new WaitForSeconds(0.518f);
         simonAnim.SetBool("GetHit", false);
@@ -323,7 +335,8 @@ public class SimonActions : MonoBehaviour, IDamageable {
         gotHit = true;
         simonAnim.SetBool("Alive", false);
         rigidbody.velocity = Vector2.zero;
-
+        //audioSource.clip = gameOver;
+        //audioSource.Play();
         yield return new WaitForSeconds(1.52f);
         gotHit = false;      
     }

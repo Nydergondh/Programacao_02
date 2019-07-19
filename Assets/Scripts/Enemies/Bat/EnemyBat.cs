@@ -10,11 +10,16 @@ public class EnemyBat : MonoBehaviour, IDamageable, IDestroyOffScreen
     private int attackDamage;
     private Animator batAnim;
 
+    private AudioSource audioSource;
+    public AudioClip deathSound;
+
     public LayerMask simonLayer;
     public float batSpeed = 2f;
 
     // Start is called before the first frame update
     void Start() {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = deathSound;
         batAnim = GetComponent<Animator>();
         collider = GetComponent<Collider2D>();
         if(transform.position.x < SimonActions.simon.transform.position.x) {
@@ -50,6 +55,7 @@ public class EnemyBat : MonoBehaviour, IDamageable, IDestroyOffScreen
 
     public IEnumerator DestroyBat() {
         batAnim.SetBool("Alive", false);
+        audioSource.Play();
         yield return new WaitForSeconds(0.355f);
         Destroy(gameObject);
     }

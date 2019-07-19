@@ -7,9 +7,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
 
-
     public Scenario currentScenario;
     public Scenario[] scenarios;
+
+    private AudioSource audioSource;
+    public AudioClip gameOver;
+    public AudioClip winGame;
+    public AudioClip CastelvaniaTheme;
+    public AudioClip BossTheme;
 
     public BigAssBat boss;
     public Transform passage_00;
@@ -29,7 +34,10 @@ public class GameManager : MonoBehaviour
             Destroy(gameManager);
             gameManager = this;
         }
-
+        audioSource = GetComponent<AudioSource>();
+        audioSource.loop = true;
+        audioSource.clip = CastelvaniaTheme;
+        audioSource.Play();
     }
 
     // Update is called once per frame
@@ -48,7 +56,12 @@ public class GameManager : MonoBehaviour
 
 
     private IEnumerator WaitEndGame() {
-        yield return new WaitForSeconds(3f);
+        if (SimonActions.simon.simonAnim.GetBool("Alive")) {
+            audioSource.clip = winGame;
+            audioSource.Play();
+            audioSource.loop = false;
+        }
+        yield return new WaitForSeconds(4f);
         SceneManager.LoadScene("Level");
     }
     public IEnumerator WaitForTransition() {
@@ -85,8 +98,13 @@ public class GameManager : MonoBehaviour
         //case hole transit
         else if (!currentScenario.doorTransit && currentScenario.holeTransit) {
             SimonActions.simon.SetTransition();
+            if (i == 3) {
+                print("GotHere1");
+                TeleportSimon();
+            }
             yield return new WaitForSeconds(3f);
 
+            SimonActions.simon.rigidbody.isKinematic = false;
             currentScenario.isChanging = true;
             currentScenario.LeftCollider.enabled = true;
             currentScenario.RigthCollider.enabled = true;
@@ -102,7 +120,9 @@ public class GameManager : MonoBehaviour
         //case castle transit
         else if (!currentScenario.doorTransit && !currentScenario.holeTransit) {
             SimonActions.simon.SetTransition();
+
             yield return new WaitForSeconds(3.5f);
+
 
             currentScenario.isChanging = true;
             currentScenario.LeftCollider.enabled = true;
@@ -207,13 +227,15 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator SpawnBoss() {
         yield return new WaitForSeconds(4f);
+        audioSource.loop = true;
+        audioSource.clip = BossTheme;
+        audioSource.Play();
         boss.enabled = true;
     }
 
     public IEnumerator EndGame() {
-        print("GotHere1");
+
         yield return new WaitForSeconds(3f);
-        print("GotHere2");
         SimonActions.simon.enabled = false;
         StartCoroutine(WaitEndGame());
         //tocar musica se possivel
@@ -222,5 +244,12 @@ public class GameManager : MonoBehaviour
     public IEnumerator Quit() {
         yield return new WaitForSeconds(3f);
         Application.Quit();
+    }
+
+    public void TeleportSimon() {
+        print("GotHere");
+        SimonActions.simon.rigidbody.velocity = Vector2.zero;
+        SimonActions.simon.rigidbody.isKinematic = true;
+        SimonActions.simon.transform.position = currentScenario.target.position;
     }
 }

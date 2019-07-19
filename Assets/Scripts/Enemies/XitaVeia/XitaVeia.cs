@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
 {
-    private float xitaSpeed = 4f;
+    private float xitaSpeed = 2.5f;
     private int health = 1;
 
     public float xitaRange = 2f;
     public int xitaHealth { get; set; } = 2;
     public int damage = 2;
-   
+
+    private AudioSource audioSource;
+    public AudioClip deathSound;
+
     public bool jump;
     public bool isOnPlatform;
     public bool run;
@@ -25,6 +28,7 @@ public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         run = false;
         isOnPlatform = true;
         jump = false;
@@ -36,8 +40,6 @@ public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
     // Update is called once per frame
     void Update() {
         if (!xitaAnim.GetBool("Dead")) {
-
-
             if (run) {
                 rigidbody.velocity = new Vector2(xitaSpeed, rigidbody.velocity.y);
                 OutOffScreen();
@@ -90,6 +92,8 @@ public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
     public IEnumerator DestroyXita() { //sad boys
         xitaAnim.SetBool("Dead", true);
         rigidbody.velocity = Vector2.zero;
+        audioSource.clip = deathSound;
+        audioSource.Play();
         yield return new WaitForSeconds(0.355f);
         Destroy(gameObject);
     }

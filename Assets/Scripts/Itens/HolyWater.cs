@@ -8,6 +8,9 @@ public class HolyWater : MonoBehaviour
     private new BoxCollider2D collider;
     private Animator holyWaterAnim;
 
+    private AudioSource audioSource;
+    public AudioClip waterHit;
+
     public int damage = 3;
     public float yVelocity = 2.5f;
     public float xVelocity = 2f;
@@ -17,6 +20,9 @@ public class HolyWater : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = waterHit;
+        audioSource.Play();
         GameManager.gameManager.canThrowIten = false;
         holyWaterAnim = GetComponent<Animator>();
         collider = GetComponent<BoxCollider2D>();

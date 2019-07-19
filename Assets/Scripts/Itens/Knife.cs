@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Knife : MonoBehaviour {
+
     public float knifeSpeed = 5f;
-    public int damage = 3;
+    public int damage = 2;
+
+    private AudioSource audioSource;
+    public AudioClip knifeSound;
 
     public LayerMask enemyLayer;
     public LayerMask groundLayer;
@@ -15,6 +19,9 @@ public class Knife : MonoBehaviour {
 
     void Start() {
         GameManager.gameManager.canThrowIten = false;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = knifeSound;
+        audioSource.Play();
         cameraMovement = Camera.main.GetComponent<CameraMovement>();
         collider = GetComponent<Collider2D>();    
         renderer = GetComponent<SpriteRenderer>();

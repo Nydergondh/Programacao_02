@@ -7,6 +7,9 @@ public class EnemyZombie : MonoBehaviour, IDamageable, IDestroyOffScreen {
     private new Collider2D collider;
     private Animator zombieAnim;
 
+    private AudioSource audioSource;
+    public AudioClip deathSound;
+
     private int health = 1;
     private int damage = 2;
     private int attackDamage;
@@ -18,6 +21,7 @@ public class EnemyZombie : MonoBehaviour, IDamageable, IDestroyOffScreen {
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         zombieAnim = GetComponent<Animator>();
         collider = GetComponent<Collider2D>();
     }
@@ -55,7 +59,10 @@ public class EnemyZombie : MonoBehaviour, IDamageable, IDestroyOffScreen {
     }
 
     public IEnumerator DestroyZombie() {
+        collider.enabled = false;
         zombieAnim.SetBool("Alive",false);
+        audioSource.clip = deathSound;
+        audioSource.Play();
         yield return new WaitForSeconds(0.355f);
         Destroy(gameObject);
     }

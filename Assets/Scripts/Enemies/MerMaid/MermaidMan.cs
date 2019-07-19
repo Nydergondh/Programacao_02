@@ -19,6 +19,11 @@ public class MermaidMan : MonoBehaviour , IDamageable
     public LayerMask isPlataform;
     public LayerMask simonLayer;
 
+    private AudioSource audioSource;
+    public AudioClip mermaidSpawn;
+    public AudioClip mermaidShoot;
+    public AudioClip deathSound;
+
     public GameObject projectile;
     public Transform projectileSpawn;
 
@@ -28,7 +33,7 @@ public class MermaidMan : MonoBehaviour , IDamageable
     public new BoxCollider2D collider;
     public BoxCollider2D triggerCollider;
     // Start is called before the first frame update
-    void Awake() { 
+    void Awake() {
         walk = false;
         waitWalk = false;
         jump = true;
@@ -36,6 +41,9 @@ public class MermaidMan : MonoBehaviour , IDamageable
     }
 
     void Start() {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = mermaidSpawn;
+        audioSource.Play();
         collider = GetComponent<BoxCollider2D>();
         mermaidAnim = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
@@ -86,6 +94,8 @@ public class MermaidMan : MonoBehaviour , IDamageable
     public IEnumerator DestroyMermaid() { //sad boys
         rigidbody.velocity = Vector2.zero;
         rigidbody.isKinematic = true;
+        audioSource.clip = deathSound;
+        audioSource.Play();
         yield return new WaitForSeconds(0.355f);
         Destroy(gameObject);
     }
@@ -143,6 +153,8 @@ public class MermaidMan : MonoBehaviour , IDamageable
     }
     //event called in the Attack animation
     public void ShotProjectile() {
+        audioSource.clip = mermaidShoot;
+        audioSource.Play();
         GameObject proj = Instantiate(projectile, projectileSpawn.position, Quaternion.identity);
         ChadProjectile chad = proj.GetComponent<ChadProjectile>();
         chad.parentOrientation = transform;

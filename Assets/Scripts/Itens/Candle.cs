@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Candle : MonoBehaviour, IDamageable
 {
+    private AudioSource audioSource;
+    public AudioClip deathSound;
+
     public GameObject[] itens;
     public LayerMask simonLayer;
     private new BoxCollider2D collider;
@@ -14,6 +17,7 @@ public class Candle : MonoBehaviour, IDamageable
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         collider = GetComponent<BoxCollider2D>();
         candleAnim = GetComponent<Animator>();
     }
@@ -108,7 +112,8 @@ public class Candle : MonoBehaviour, IDamageable
     public void OnDamage(int damage, GameObject gameObject) {
 
         ThrowItem();
-        
+        audioSource.clip = deathSound;
+        audioSource.Play();
         candleAnim.SetBool("Destroy",true);
     }
     //called has a event in an animation

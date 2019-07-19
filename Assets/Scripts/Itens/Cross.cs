@@ -5,11 +5,14 @@ using UnityEngine;
 public class Cross : MonoBehaviour
 {
     public float crossSpeed = 5f;
-    public int damage = 3;
+    public int damage = 2;
     private bool comeBack; // :( I miss u Sophia, come back Please.
     private bool comeRigth;
     public LayerMask enemyLayer;
     public LayerMask groundLayer;
+
+    private AudioSource audioSource;
+    public AudioClip crossShoot;
 
     private Transform cameraLeft;
     private Transform cameraRigth;
@@ -20,6 +23,9 @@ public class Cross : MonoBehaviour
 
     void Start() {
 
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = crossShoot;
+        audioSource.Play();
         GameManager.gameManager.canThrowIten = false;
         cameraMovement = Camera.main.GetComponent<CameraMovement>();
         cameraRigth = cameraMovement.rigthLimit;

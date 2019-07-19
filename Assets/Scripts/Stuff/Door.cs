@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    private AudioSource audioSource;
+    public AudioClip openSound;
+
     private new BoxCollider2D collider;
     public LayerMask simomLayer;
     private Animator doorAnim;
@@ -11,6 +14,7 @@ public class Door : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         doorAnim = GetComponent<Animator>();
         collider = GetComponent<BoxCollider2D>();
     }
@@ -18,14 +22,14 @@ public class Door : MonoBehaviour
     // Update is called once per frame
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collider.IsTouchingLayers(simomLayer) && GameManager.gameManager.currentScenario.isChanging) {
-            print("GotHere");
+            audioSource.clip = openSound;
+            audioSource.Play();
             doorAnim.SetBool("Open", true);
             doorAnim.SetBool("Idle", false);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
-        print("GotHere2");
         if (GameManager.gameManager.currentScenario.isChanging) {
             doorAnim.SetBool("Open", false);
             doorAnim.SetBool("Idle", false);
@@ -41,7 +45,6 @@ public class Door : MonoBehaviour
     IEnumerator IdleStateStart() {
         
         yield return new WaitForSeconds(0.518f);
-        print("Gothere");
         SetDoorIdle();
     }
 }

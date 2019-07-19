@@ -16,6 +16,9 @@ public class BigAssBat : MonoBehaviour, IDamageable {
     public Transform wanderRigth;
     private Vector3 wanderPosition;
 
+    private AudioSource audioSource;
+    public AudioClip deathSound;
+
     public bool wait = true; // Used to wait some time after a attack
     public bool hitWall = false; //Used to check if the bat hit wall (redirect to alt Position)
     public bool gotHit = false; //Used to Check if the bot Got hitted by something
@@ -39,6 +42,7 @@ public class BigAssBat : MonoBehaviour, IDamageable {
 
     // Start is called before the first frame update
     void Start() {
+        audioSource = GetComponent<AudioSource>();
         batAssAnim = GetComponent<Animator>();
         collider = GetComponent<Collider2D>();
         StartCoroutine(WaitTime());
@@ -77,6 +81,8 @@ public class BigAssBat : MonoBehaviour, IDamageable {
     }
 
     public IEnumerator DestroyBat() {
+        audioSource.clip = deathSound;
+        audioSource.Play();
         batAssAnim.SetBool("Alive", false);
         collider.enabled = false;
         yield return new WaitForSeconds(0.355f);

@@ -18,6 +18,8 @@ public class Whip : MonoBehaviour
         if (collider.IsTouchingLayers(enemyLayer) || collider.IsTouchingLayers(destroyableLayer)) {
             var damageable = enemy.GetComponent<IDamageable>();
             if (damageable != null) {
+
+                SimonActions.simon.audioSource.Stop();
                 damageable.OnDamage(SimonActions.simon.damage, gameObject);
             }
         }
