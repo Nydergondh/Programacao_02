@@ -7,8 +7,8 @@ public class EnemyZombie : MonoBehaviour, IDamageable, IDestroyOffScreen {
     private new Collider2D collider;
     private Animator zombieAnim;
 
-    private int health = 3;
-    private int damage = 1;
+    private int health = 1;
+    private int damage = 2;
     private int attackDamage;
     private bool canDestroy = false; //bad name (consider changing)
 

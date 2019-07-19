@@ -45,6 +45,7 @@ public class Cross : MonoBehaviour
             crossSpeed *= -1f;
         }
         if (comeBack && ((comeRigth && transform.position.x > SimonActions.simon.transform.position.x) || (!comeRigth && transform.position.x < SimonActions.simon.transform.position.x))) {
+            GameManager.gameManager.canThrowIten = true;
             Destroy(gameObject);
         }
         float xMovement = crossSpeed * Time.deltaTime;

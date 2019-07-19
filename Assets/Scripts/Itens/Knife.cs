@@ -27,6 +27,7 @@ public class Knife : MonoBehaviour {
     void Update()
     {
         if(transform.position.x > cameraMovement.rigthLimit.position.x || transform.position.x < cameraMovement.leftLimit.position.x) {
+            GameManager.gameManager.canThrowIten = true;
             Destroy(gameObject);
         }
         float xMovement = knifeSpeed * Time.deltaTime;

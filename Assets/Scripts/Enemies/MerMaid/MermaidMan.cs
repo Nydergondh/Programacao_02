@@ -5,8 +5,8 @@ using UnityEngine;
 public class MermaidMan : MonoBehaviour , IDamageable
 {
 
-    private int health = 3;
-    public int damage = 1;
+    private int health = 1;
+    public int damage = 2;
     private float walkSpeed = 1f;
     public float jumpSpeed = 7.25f;
 

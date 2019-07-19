@@ -28,16 +28,16 @@ public class Throables : MonoBehaviour {
             case -1:
                 break;
             case 0:
-                GameObject knife = Instantiate(throwables[0], transform.position, Quaternion.identity);
+                GameObject knife = Instantiate(throwables[currentId], transform.position, Quaternion.identity);
                 break;
             case 1:
-                GameObject holyWater = Instantiate(throwables[1], transform.position, Quaternion.identity);
+                GameObject holyWater = Instantiate(throwables[currentId], transform.position, Quaternion.identity);
                 break;
             case 2:
-                GameObject cross = Instantiate(throwables[2], transform.position, Quaternion.identity);
+                GameObject cross = Instantiate(throwables[currentId], transform.position, Quaternion.identity);
                 break;
             case 3:
-                GameObject axe = Instantiate(throwables[3], transform.position, Quaternion.identity);
+                GameObject axe = Instantiate(throwables[currentId], transform.position, Quaternion.identity);
                 break;
         }       
     }

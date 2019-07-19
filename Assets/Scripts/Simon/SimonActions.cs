@@ -7,16 +7,16 @@ public class SimonActions : MonoBehaviour, IDamageable {
 
     public static SimonActions simon;
 
-    public int maxHealth = 5;
+    public int maxHealth = 16;
     public int health;
-    public int damage = 3;
+    public int damage = 1;
     public float walkSpeed = 1f;
     public float jumpSpeed = 5f;
     public int whipLv = 1;
 
+    public bool freeJump;
     public bool transitioning;
     private bool invulnerable;
-    public bool canUseStairs;
     private bool usingStairs;
 
     public LayerMask isPlataform;
@@ -28,7 +28,6 @@ public class SimonActions : MonoBehaviour, IDamageable {
     public Animator whipAnim;
 
     private GameObject enemyObj;
-    public Stairs stair { get; set; }
     public Throables throwable { get; private set; }
     public new Rigidbody2D rigidbody { get; set; }
     public BoxCollider2D feetCollider;
@@ -48,11 +47,9 @@ public class SimonActions : MonoBehaviour, IDamageable {
     
     void Start() {
         health = maxHealth;
-
         usingStairs = false;
         transitioning = false;
-        invulnerable = false;
-        
+        invulnerable = false;       
 
         simonCollider = GetComponent<BoxCollider2D>();
         rigidbody = GetComponent<Rigidbody2D>();
@@ -184,6 +181,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
                     simonAnim.SetBool("IsAttacking", true);
 
                     StartCoroutine(AttackWait());
+                
                 }
         }
     }
@@ -204,14 +202,17 @@ public class SimonActions : MonoBehaviour, IDamageable {
     private void Whip() {
         whipAnim.speed = 1.25f;
         if (whipLv == 1) {
+            damage = 1;
             whipAnim.SetBool("Whip", true);
             whipAnim.SetInteger("WhipLv", 1);
         }
         else if (whipLv == 2) {
+            damage = 2;
             whipAnim.SetBool("Whip", true);
             whipAnim.SetInteger("WhipLv", 2);
         }
         else if (whipLv == 3) {
+            damage = 2;
             whipAnim.SetBool("Whip", true);
             whipAnim.SetInteger("WhipLv", 3);
         }
@@ -219,14 +220,17 @@ public class SimonActions : MonoBehaviour, IDamageable {
 
     private void CrouchWhip() {
         if (whipLv == 1) {
+            damage = 1;
             whipAnim.SetBool("CrouchWhip", true);
             whipAnim.SetInteger("WhipLv", 1);
         }
         else if (whipLv == 2) {
+            damage = 2;
             whipAnim.SetBool("CrouchWhip", true);
             whipAnim.SetInteger("WhipLv", 2);
         }
         else if (whipLv == 3) {
+            damage = 2;
             whipAnim.SetBool("CrouchWhip", true);
             whipAnim.SetInteger("WhipLv", 3);
         }
@@ -296,6 +300,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
         invulnerable = true;
         simonAnim.SetBool("Alive", false);
         rigidbody.velocity = Vector2.zero;
+
         yield return new WaitForSeconds(1.52f);
         invulnerable = false;      
     }
@@ -307,6 +312,9 @@ public class SimonActions : MonoBehaviour, IDamageable {
             health -= damage;
             DamageSimon(enemyObj);
             StartCoroutine(ApplyDamage());
+
+            UI_Manager.ui_Manager.currentWidth -= damage * 7.875f;
+            
             if (health <= 0) {
                 simonAnim.SetBool("Alive", false);
             }
@@ -363,6 +371,12 @@ public class SimonActions : MonoBehaviour, IDamageable {
         }
         else if (simonAnim.GetBool("Alive") && !simonAnim.GetBool("IsJumping") && !simonAnim.GetBool("Crouch") && !simonAnim.GetBool("IsAttacking") && 
                 !simonAnim.GetBool("IsWalking") && (rigidbody.velocity.y > 0 || rigidbody.velocity.y < 0)) {
+
+            return true;
+        }
+
+        else if (simonAnim.GetBool("Alive") && simonAnim.GetBool("IsJumping") && !simonAnim.GetBool("Crouch") && !simonAnim.GetBool("IsAttacking") &&
+        !simonAnim.GetBool("IsWalking") && (rigidbody.velocity.y > 0 || rigidbody.velocity.y < 0) && GameManager.gameManager.currentScenario.holeTransit) {
 
             return true;
         }

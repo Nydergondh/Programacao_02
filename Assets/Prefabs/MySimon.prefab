@@ -137,7 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7177194306989380297}
   - component: {fileID: 7177194306989380299}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Whip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 7177194307055090419}
   - component: {fileID: 7177194307055090418}
   - component: {fileID: 7177194307055090417}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WhipCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +265,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7177194307903669789}
   - component: {fileID: 7177194307903669788}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WhipPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -452,14 +452,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 043c6695f5100524dab810a34d792037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  maxHealth: 16
   health: 1
-  damage: 3
-  walkSpeed: 2
-  jumpSpeed: 4.75
-  whipLv: 3
+  damage: 1
+  walkSpeed: 1.5
+  jumpSpeed: 4.85
+  whipLv: 1
+  freeJump: 0
   transitioning: 0
-  canUseStairs: 0
   isPlataform:
     serializedVersion: 2
     m_Bits: 16640
@@ -541,7 +541,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.27592877}
+  m_Offset: {x: 0.0008068085, y: -0.27592877}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -552,5 +552,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.38, y: 0.046761572}
+  m_Size: {x: 0.38968277, y: 0.046761572}
   m_EdgeRadius: 0

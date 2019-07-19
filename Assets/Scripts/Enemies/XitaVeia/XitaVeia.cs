@@ -9,7 +9,7 @@ public class XitaVeia : MonoBehaviour, IDamageable, IDestroyOffScreen
 
     public float xitaRange = 2f;
     public int xitaHealth { get; set; } = 2;
-    public int damage = 1;
+    public int damage = 2;
    
     public bool jump;
     public bool isOnPlatform;

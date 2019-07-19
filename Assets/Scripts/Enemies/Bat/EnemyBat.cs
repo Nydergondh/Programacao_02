@@ -6,7 +6,7 @@ public class EnemyBat : MonoBehaviour, IDamageable, IDestroyOffScreen
 {
     private new Collider2D collider;
     private int health = 1;
-    private int damage = 1;
+    private int damage = 2;
     private int attackDamage;
     private Animator batAnim;
 

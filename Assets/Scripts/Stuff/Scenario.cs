@@ -41,6 +41,11 @@ public class Scenario : MonoBehaviour
             if (doorTransit) {
                 currentCamera.transitCamera = true;
             }
+
+            if (holeTransit) {
+                StartCoroutine(GameManager.gameManager.ClosePassage());
+            }
+
             StartCoroutine(GameManager.gameManager.WaitForTransition());
             if (bossScenario) {
                 edgeCollider2D.enabled = false;

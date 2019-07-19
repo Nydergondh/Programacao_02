@@ -142,4 +142,4 @@ MonoBehaviour:
   simonLayer:
     serializedVersion: 2
     m_Bits: 1024
-  zombieSpeed: 3
+  zombieSpeed: 1.5

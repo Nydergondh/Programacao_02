@@ -5,8 +5,8 @@ using UnityEngine;
 public class BigAssBat : MonoBehaviour
 {
     private new Collider2D collider;
-    private int health = 1;
-    private int damage = 1;
+    private int health = 16;
+    private int damage = 2;
     private int attackDamage;
 
     private bool wait = true; // Used to wait some time after a attack
