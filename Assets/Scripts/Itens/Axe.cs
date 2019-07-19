@@ -8,7 +8,7 @@ public class Axe : MonoBehaviour
     private new BoxCollider2D collider;
     private Animator axeAnim;
 
-    public int damage = 3;
+    public int damage = 16;
     public float yVelocity = 4f;
     public float xVelocity = 3f;
 

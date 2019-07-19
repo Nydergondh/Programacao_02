@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4723914511494051373
+--- !u!1 &809735366792506151
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1837953893461540714}
-  - component: {fileID: 3589790632909941894}
-  - component: {fileID: 3476895841279388245}
-  - component: {fileID: 2191727251862347781}
-  - component: {fileID: 8137371820959200196}
-  - component: {fileID: 1606990064374174301}
-  m_Layer: 12
-  m_Name: Whip
+  - component: {fileID: 809735366792506153}
+  - component: {fileID: 809735366792506152}
+  - component: {fileID: 7227948288232391104}
+  - component: {fileID: 7392336609361098418}
+  - component: {fileID: 1073117224283859586}
+  - component: {fileID: 1815993965151732740}
+  m_Layer: 9
+  m_Name: BigAssBat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1837953893461540714
+--- !u!4 &809735366792506153
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4723914511494051373}
+  m_GameObject: {fileID: 809735366792506151}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.18, y: -0.378, z: 0}
+  m_LocalPosition: {x: 33.7, y: 3.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &3589790632909941894
+--- !u!212 &809735366792506152
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4723914511494051373}
+  m_GameObject: {fileID: 809735366792506151}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -72,26 +72,45 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300008, guid: c8d708c8f99c05648b34c9850f758128, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d62339450cd8f2c4887590a4e1e04ba4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 1.28, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &3476895841279388245
+--- !u!95 &7227948288232391104
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809735366792506151}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 00473f156f3400c48b27a376fd8d8649, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!50 &7392336609361098418
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4723914511494051373}
-  m_BodyType: 0
+  m_GameObject: {fileID: 809735366792506151}
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -104,75 +123,60 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &2191727251862347781
+--- !u!61 &1073117224283859586
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4723914511494051373}
+  m_GameObject: {fileID: 809735366792506151}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00829199, y: -0.006332293}
+  m_Offset: {x: -0.023645401, y: 0.00000011920929}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
-    newSize: {x: 0.64, y: 0.64}
+    oldSize: {x: 1.28, y: 0.64}
+    newSize: {x: 1.28, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.34415346, y: 0.33824518}
+  m_Size: {x: 0.67705154, y: 0.42719436}
   m_EdgeRadius: 0
---- !u!61 &8137371820959200196
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4723914511494051373}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.00829199, y: -0.006332293}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
-    newSize: {x: 0.64, y: 0.64}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.34415346, y: 0.33824518}
-  m_EdgeRadius: 0
---- !u!114 &1606990064374174301
+--- !u!114 &1815993965151732740
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4723914511494051373}
-  m_Enabled: 1
+  m_GameObject: {fileID: 809735366792506151}
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec7095b240108be429ce9970fd300ca3, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d34c41f852070444b326458aae89c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idConsumable: 0
+  endGameOrb: {fileID: 835411351476341841, guid: f3a5f3d61fc47f0418e79e3abd7f0316,
+    type: 3}
+  endGameOrbPos: {fileID: 0}
+  wanderLeft: {fileID: 0}
+  wanderRigth: {fileID: 0}
+  wait: 1
+  hitWall: 0
+  gotHit: 0
+  attack: 0
+  goUp: 0
+  canWander: 1
   simonLayer:
     serializedVersion: 2
     m_Bits: 1024
-  groundLayer:
+  wallLayer:
     serializedVersion: 2
-    m_Bits: 256
-  throable: {fileID: 0}
+    m_Bits: 16384
+  batSpeed: 1.5
+  attackTime: 4

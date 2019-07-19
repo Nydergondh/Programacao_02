@@ -6,10 +6,16 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
+
+
     public Scenario currentScenario;
     public Scenario[] scenarios;
+
+    public BigAssBat boss;
     public Transform passage_00;
     public Transform passage_01;
+
+
     public bool canThrowIten = true;
     public int i = 0;
 
@@ -35,16 +41,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitEndGame() {
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene("Level");
-    }
-
     public void ChangeScene() {
         i += 1;;
         currentScenario = scenarios[i];
     }
 
+
+    private IEnumerator WaitEndGame() {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("Level");
+    }
     public IEnumerator WaitForTransition() {
         //case boss room
         DestroyEnemys();
@@ -197,5 +203,24 @@ public class GameManager : MonoBehaviour
             Passage pass = passage_01.GetComponent<Passage>();
             pass.OnChangeScene();
         }
+    }
+
+    public IEnumerator SpawnBoss() {
+        yield return new WaitForSeconds(4f);
+        boss.enabled = true;
+    }
+
+    public IEnumerator EndGame() {
+        print("GotHere1");
+        yield return new WaitForSeconds(3f);
+        print("GotHere2");
+        SimonActions.simon.enabled = false;
+        StartCoroutine(WaitEndGame());
+        //tocar musica se possivel
+    }
+
+    public IEnumerator Quit() {
+        yield return new WaitForSeconds(3f);
+        Application.Quit();
     }
 }

@@ -12,10 +12,12 @@ public class Consumables : MonoBehaviour
     public Throables throable;
     private new Rigidbody2D rigidbody;
     private BoxCollider2D boxCollider;
+    private new SpriteRenderer renderer;
 
     void Start() {
         rigidbody = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        renderer = GetComponent<SpriteRenderer>();
         throable = SimonActions.simon.GetComponentInChildren<Throables>();
     }
     private void OnTriggerEnter2D(Collider2D collision) {
@@ -31,8 +33,14 @@ public class Consumables : MonoBehaviour
             ConsumeThrowableIten();
             CoxinhaDeFrango();
             FuckYouAll();
-
-            Destroy(gameObject);
+            EndGameIten();
+            if (idConsumable != 13) {
+                Destroy(gameObject);
+            }
+            else {
+                renderer.enabled = false;
+                boxCollider.enabled = false;
+            }
         }
     }
 
@@ -68,6 +76,7 @@ public class Consumables : MonoBehaviour
             throable.currentId = idConsumable;
             SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
             UI_Manager.ui_Manager.subweapon_data.sprite = renderer.sprite;
+            UI_Manager.ui_Manager.subweapon_data.color = new Color(255, 255, 255);
         }
     }
 
@@ -98,7 +107,13 @@ public class Consumables : MonoBehaviour
                 SimonActions.simon.health = SimonActions.simon.maxHealth;
                 healthRestored = SimonActions.simon.maxHealth - SimonActions.simon.health;
             }
-            UI_Manager.ui_Manager.currentWidth += healthRestored * 7.875f;
+            UI_Manager.ui_Manager.currentWidthPlayer += healthRestored * 7.875f;
+        }
+    }
+
+    public void EndGameIten() {
+        if (idConsumable == 13) {
+            StartCoroutine(GameManager.gameManager.EndGame());
         }
     }
 }

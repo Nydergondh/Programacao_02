@@ -25,8 +25,8 @@ public class Door : MonoBehaviour
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
-
-        if (collider.IsTouchingLayers(simomLayer) && GameManager.gameManager.currentScenario.isChanging) {
+        print("GotHere2");
+        if (GameManager.gameManager.currentScenario.isChanging) {
             doorAnim.SetBool("Open", false);
             doorAnim.SetBool("Idle", false);
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Hearts : MonoBehaviour
 {
     public int points;
-    public BoxCollider2D collider;
+    public new BoxCollider2D collider;
     public LayerMask simonLayer;
 
     // Start is called before the first frame update

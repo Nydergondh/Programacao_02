@@ -16,7 +16,8 @@ public class SimonActions : MonoBehaviour, IDamageable {
 
     public bool freeJump;
     public bool transitioning;
-    private bool invulnerable;
+    private bool gotHit;
+    private bool invincible;
     private bool usingStairs;
 
     public LayerMask isPlataform;
@@ -49,11 +50,13 @@ public class SimonActions : MonoBehaviour, IDamageable {
         health = maxHealth;
         usingStairs = false;
         transitioning = false;
-        invulnerable = false;       
+        invincible = false;
+        gotHit = false;       
 
         simonCollider = GetComponent<BoxCollider2D>();
         rigidbody = GetComponent<Rigidbody2D>();
         throwable = GetComponentInChildren<Throables>();
+        throwable.currentId = -1;
     }
 
     void Update() {
@@ -75,7 +78,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
         float delta = Input.GetAxis("Horizontal") * walkSpeed;
         vel = new Vector2(delta, rigidbody.velocity.y);
         simonAnim.SetFloat("Speed" ,delta);
-        if (!invulnerable && simonAnim.GetBool("Alive")) {
+        if (!gotHit && simonAnim.GetBool("Alive")) {
             if (!simonAnim.GetBool("IsAttacking") || (simonAnim.GetBool("IsJumping") && simonAnim.GetBool("IsAttacking"))) {
                 /*
                 if (usingStairs) {
@@ -115,8 +118,16 @@ public class SimonActions : MonoBehaviour, IDamageable {
                     simonAnim.SetBool("Crouch", false);
                     vel = new Vector2(vel.x, rigidbody.velocity.y);
                 }
+                //jump and attack at the same time
                 //jump
-                if (CheckGround() && !simonAnim.GetBool("IsJumping") && Input.GetButtonDown("Jump") && !simonAnim.GetBool("Crouch")) {
+                if ((CheckGround() && !simonAnim.GetBool("IsJumping") && Input.GetButtonDown("Jump") && !simonAnim.GetBool("Crouch") && (Input.GetKeyDown(KeyCode.Z)))) {
+                    Jump(vel.x);
+                    simonAnim.SetBool("IsJumping", true);
+                    simonAnim.SetBool("Crouch", false);
+                    simonAnim.SetBool("IsWalking", false);
+                    Attack();
+                }
+                else if (CheckGround() && !simonAnim.GetBool("IsJumping") && Input.GetButtonDown("Jump") && !simonAnim.GetBool("Crouch")) {
                     Jump(vel.x);
                     simonAnim.SetBool("IsJumping", true);
                     simonAnim.SetBool("Crouch", false);
@@ -153,21 +164,25 @@ public class SimonActions : MonoBehaviour, IDamageable {
     void Attack() {
 
         // Actions : Item, Whip
-        if (!simonAnim.GetBool("IsAttacking") && !invulnerable && simonAnim.GetBool("Alive")) {
+        if (!simonAnim.GetBool("IsAttacking") && !gotHit && simonAnim.GetBool("Alive")) {
             //throw stuff
-            if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && GameManager.gameManager.canThrowIten) {
+            if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) 
+                && GameManager.gameManager.canThrowIten && throwable.currentId != -1 && UI_Manager.ui_Manager.hearts > 0) {
                 simonAnim.SetBool("Throw", true);
                 simonAnim.SetBool("IsWalking", false);
                 simonAnim.SetBool("IsAttacking", true);
+                UI_Manager.ui_Manager.hearts -= 1;
+                
                 StartCoroutine(AttackWait());                
-            }       
+            } 
+
 
             else if (Input.GetKeyDown(KeyCode.Z) && (!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.W))) {
                     //play whipAnim
                     if (simonAnim.GetBool("Crouch")) {
                         CrouchWhip();
                     }
-                    else {
+                    else { 
                         Whip();
                     }
 
@@ -219,6 +234,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
     }
 
     private void CrouchWhip() {
+        whipAnim.speed = 1.25f;
         if (whipLv == 1) {
             damage = 1;
             whipAnim.SetBool("CrouchWhip", true);
@@ -264,7 +280,7 @@ public class SimonActions : MonoBehaviour, IDamageable {
             whipAnim.SetBool("Whip", false);
             whipAnim.SetBool("CrouchWhip", false);
             //checks if GotHit to throw simon in one direction
-            if (invulnerable) {
+            if (gotHit) {
                 DamageSimon(enemyObj);
             }
         }
@@ -280,40 +296,47 @@ public class SimonActions : MonoBehaviour, IDamageable {
             whipAnim.SetBool("Whip", false);
             whipAnim.SetBool("CrouchWhip", false);
             //checks if GotHit to throw simon in one direction
-            if (invulnerable) {
+            if (gotHit) {
                 DamageSimon(enemyObj);
             }
         }
     }
 
     IEnumerator ApplyDamage() {
-        invulnerable = true;
+        gotHit = true;
         simonAnim.SetBool("GetHit", true);
-        simonRenderer.color = new Color(1, 1, 1, 0.5f);
+        StartCoroutine(Invincibility());
         yield return new WaitForSeconds(0.518f);
-        simonRenderer.color = new Color(1, 1, 1, 1);
         simonAnim.SetBool("GetHit", false);
-        invulnerable = false;
+        gotHit = false;
+    }
+
+    IEnumerator Invincibility() {
+        invincible = true;
+        simonRenderer.color = new Color(1, 1, 1, 0.5f);
+        yield return new WaitForSeconds(3);
+        simonRenderer.color = new Color(1, 1, 1, 1);
+        invincible = false;
     }
 
     public IEnumerator Die() {
-        invulnerable = true;
+        gotHit = true;
         simonAnim.SetBool("Alive", false);
         rigidbody.velocity = Vector2.zero;
 
         yield return new WaitForSeconds(1.52f);
-        invulnerable = false;      
+        gotHit = false;      
     }
 
     public void OnDamage(int damage, GameObject enemyObject) {
-        if (!invulnerable && simonAnim.GetBool("Alive"))
+        if (!invincible && simonAnim.GetBool("Alive"))
         {
             enemyObj = enemyObject;
             health -= damage;
             DamageSimon(enemyObj);
             StartCoroutine(ApplyDamage());
 
-            UI_Manager.ui_Manager.currentWidth -= damage * 7.875f;
+            UI_Manager.ui_Manager.currentWidthPlayer -= damage * 7.875f;
             
             if (health <= 0) {
                 simonAnim.SetBool("Alive", false);

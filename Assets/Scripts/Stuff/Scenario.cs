@@ -37,6 +37,7 @@ public class Scenario : MonoBehaviour
             else {
                 LeftCollider.enabled = true;
                 RigthCollider.enabled = true;
+                StartCoroutine(GameManager.gameManager.SpawnBoss());
             }
             if (doorTransit) {
                 currentCamera.transitCamera = true;

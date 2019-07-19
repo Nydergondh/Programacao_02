@@ -18,7 +18,8 @@ public class Throables : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && Input.GetKeyDown(KeyCode.Z) && GameManager.gameManager.canThrowIten) {
+        if((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && Input.GetKeyDown(KeyCode.Z) 
+            && GameManager.gameManager.canThrowIten && UI_Manager.ui_Manager.hearts > 0) {
             ThrowItem();
         }
     }

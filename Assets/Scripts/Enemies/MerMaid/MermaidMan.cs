@@ -20,7 +20,7 @@ public class MermaidMan : MonoBehaviour , IDamageable
     public LayerMask simonLayer;
 
     public GameObject projectile;
-    [SerializeField] Transform projectileSpawn;
+    public Transform projectileSpawn;
 
     public Animator mermaidAnim { get; private set; }
 

@@ -13,7 +13,8 @@ public class UI_Manager : MonoBehaviour
     public float time = 0f;
     public float totalWidth = 126f;
     public float totalHeight = 21f;
-    public float currentWidth;
+    public float currentWidthPlayer;
+    public float currentWidthEnemie;
     public float currentHigth;
     // Health Bar Size = 7,90625‬
 
@@ -35,7 +36,8 @@ public class UI_Manager : MonoBehaviour
             Destroy(ui_Manager);
             ui_Manager = this;
         }
-        currentWidth = totalWidth;
+        currentWidthPlayer = totalWidth;
+        currentWidthEnemie = totalWidth;
         currentHigth = totalHeight;
     }
 
@@ -65,8 +67,8 @@ public class UI_Manager : MonoBehaviour
     void CheckUI() {
         hearts_data.text = hearts.ToString();
         point_data.text = points.ToString();
-        health.rectTransform.sizeDelta =
-        new Vector2(currentWidth, currentHigth);
+        health.rectTransform.sizeDelta = new Vector2(currentWidthPlayer, currentHigth);
+        enemyHealth.rectTransform.sizeDelta = new Vector2(currentWidthEnemie, currentHigth);
     }
 
 }
