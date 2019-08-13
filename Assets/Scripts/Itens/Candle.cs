@@ -13,7 +13,6 @@ public class Candle : MonoBehaviour, IDamageable
     private Animator candleAnim;
     public bool garantiedDrop;
     public int dropID;
-    private int countSpawn = 0;
     // Start is called before the first frame update
     void Start()
     {

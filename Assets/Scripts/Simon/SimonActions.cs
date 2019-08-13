@@ -23,7 +23,6 @@ public class SimonActions : MonoBehaviour, IDamageable {
     public bool transitioning;
     private bool gotHit;
     private bool invincible;
-    private bool usingStairs;
 
     public LayerMask isPlataform;
     public LayerMask enemyLayer;
@@ -54,7 +53,6 @@ public class SimonActions : MonoBehaviour, IDamageable {
     void Start() {
         audioSource = GetComponent<AudioSource>();
         health = maxHealth;
-        usingStairs = false;
         transitioning = false;
         invincible = false;
         gotHit = false;       

@@ -37,8 +37,6 @@ public class BigAssBat : MonoBehaviour, IDamageable {
 
     public float batSpeed = 3f;
     public float attackTime = 4f;
-    private float currentTime = 0f;
-    private float timerAttack = 0f;
 
     // Start is called before the first frame update
     void Start() {
